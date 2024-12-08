@@ -1,0 +1,98 @@
+<app-menu (carritoClicked)="toggleCarrito()"></app-menu>
+
+<app-carrito *ngIf="carritoVisible" (closeCarrito)="closeCarrito()"></app-carrito>
+
+<div class="container mt-4 text-center">
+  <div class="row title-row">
+    <div class="col-md-12">
+      <h1 style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        Mis Dulces Delicias - Repostería 100% casera y a pedido</h1>
+    </div>
+  </div>
+</div>
+<div class="container mt-4">
+  <div id="galleryCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="assets/images/tortas/torta_manjar_nuez.PNG" class="d-block w-100" alt="Imagen 1">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/images/tortas/torta_manjar_durazo_crema.PNG" class="d-block w-100" alt="Imagen 2">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/images/pie_de_limon.PNG" class="d-block w-100" alt="Imagen 3">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/images/torta_portada_1.PNG" class="d-block w-100" alt="Imagen 4">
+      </div>
+      <div class="carousel-item">
+        <img src="assets/images/torta_portada_2.PNG" class="d-block w-100" alt="Imagen 5">
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#galleryCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#galleryCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+        aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#galleryCarousel" data-bs-slide-to="4" aria-label="Slide 5"></button>
+    </div>
+  </div>
+</div>
+<div class="container mt-4 text-center">
+  <div class="row title-row">
+    <div class="col-md-12">
+      <h1 style="color: white; font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;">
+        Categorías</h1>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-3 mt-2">
+      <div class="card bg-transparent">
+        <img src="assets/images/tortas/torta_amor.PNG" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h4 class="card-title">Tortas</h4>
+          <a routerLink="/tortas" class="btn btn-dark">Ver productos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 mt-2">
+      <div class="card bg-transparent">
+        <img src="assets/images/cheesecake/cheesecacke_frambuesa.PNG" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h4 class="card-title">Cheescakes</h4>
+          <a routerLink="/cheesecakes" class="btn btn-dark">Ver productos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 mt-2">
+      <div class="card bg-transparent">
+        <img src="assets/images/kuchen/kuchen_frutilla.PNG" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h4 class="card-title">Kuchen</h4>
+          <a routerLink="/kuchens" class="btn btn-dark">Ver productos</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-3 mt-2">
+      <div class="card bg-transparent">
+        <img src="assets/images/tartaletas/tartaleta_durazno.PNG" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h4 class="card-title">Tartaletas</h4>
+          <a routerLink="/tartaletas" class="btn btn-dark">Ver productos</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,13 @@
+node_modules
+.git
+dist
+.vscode
+.angular
+documentation
+.editorconfig
+.git
+.gitignore
+firebase.json
+README.md
+tsconfig.spec.json
+tsconfig.doc.json

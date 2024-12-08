@@ -1,0 +1,89 @@
+.cart-products {
+  display: none; /* Inicialmente oculto */
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100%;
+  background: white;
+  box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  padding: 20px;
+  overflow-y: auto;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+  /* Ajustes de tamaño de fuente para compatibilidad con Angular Material */
+  font-size: 0.875rem; /* Tamaño de fuente base */
+}
+
+.cart-products.visible {
+  display: block; /* Mostrar cuando tenga la clase visible */
+}
+
+.cart-products .close-btn {
+  cursor: pointer;
+  text-align: right;
+  font-size: 1.5rem; /* Ajustado para mejor visibilidad */
+  margin-bottom: 10px;
+}
+
+.cart-products h3 {
+  font-size: 1.5rem; /* Ajustado para mejor visibilidad */
+  margin-bottom: 20px;
+}
+
+.cart-products .item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.cart-products .item img.cart-product-img {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+.cart-products .item-content {
+  flex: 1;
+  margin-left: 10px;
+  font-size: 0.875rem; /* Ajustado para consistencia */
+}
+
+.cart-products .item-content h5 {
+  margin: 0;
+  font-size: 1rem; /* Ajustado para consistencia */
+}
+
+.cart-products .item-content h6 {
+  margin: 0;
+  font-size: 0.875rem; /* Ajustado para consistencia */
+}
+
+.cart-products .delete-product {
+  cursor: pointer;
+  color: red;
+  font-size: 1rem; /* Ajustado para consistencia */
+}
+
+.cart-products h2 {
+  font-size: 1.2rem; /* Ajustado para mejor visibilidad */
+  margin-top: 20px;
+}
+.cart-products .finalizar-compra-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: rgba(212, 130, 166, 0.8); /* Color de fondo */
+  color: white; /* Color del texto */
+  border: none;
+  cursor: pointer;
+  font-size: 1.2em;
+  margin-top: 20px;
+}
+
+.cart-products .finalizar-compra-btn:hover {
+  background-color: rgba(49, 42, 45, 0.8); /* Color de fondo al pasar el cursor */
+}

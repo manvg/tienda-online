@@ -1,0 +1,17 @@
+<div class="cart-products" id="products-id" [ngClass]="{ 'visible': productos.length >= 0 }">
+  <p class="close-btn" (click)="onCloseClick()">X</p>
+  <h3>Mi carrito</h3>
+  <div class="card-items">
+    <div *ngFor="let producto of productos" class="item">
+      <img [src]="producto.imagen" [alt]="producto.titulo" class="cart-product-img">
+      <div class="item-content">
+        <h5>{{ producto.titulo }}</h5>
+        <h5 class="cart-price">{{ producto.precio | currency:'CLP':'symbol':'1.0-0':'es-CL'}}</h5>
+        <h6>Cantidad: {{ producto.cantidad }}</h6>
+      </div>
+      <span class="delete-product" (click)="eliminarProducto(producto)">X</span>
+    </div>
+  </div>
+  <h2>Total: <strong class="price-total">{{ precioTotal | currency:'CLP':'symbol':'1.0-0':'es-CL'}}</strong></h2>
+  <button class="finalizar-compra-btn" (click)="finalizarCompra()">Finalizar Compra</button>
+</div>

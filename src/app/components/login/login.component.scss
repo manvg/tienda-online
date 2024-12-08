@@ -1,0 +1,27 @@
+.container {
+  height: 100vh; /* Asegura que el contenedor ocupe toda la altura de la ventana */
+}
+
+.form-card {
+  max-width: 400px; /* Limita el ancho del formulario */
+  width: 100%; /* Asegura que el formulario ocupe todo el ancho disponible */
+  background-color: rgba(255, 255, 255, 0.8); /* Color de fondo blanco con 80% de opacidad */
+  backdrop-filter: blur(10px); /* Opción adicional para agregar un efecto de desenfoque al fondo */
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.5); /* Color de fondo blanco con 50% de opacidad */
+  border: 1px solid rgba(0, 0, 0, 0.1); /* Un borde suave */
+  box-shadow: none; /* Elimina cualquier sombra predeterminada */
+  color: #000; /* Asegura que el texto sea visible */
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.7); /* Aumenta ligeramente la opacidad al enfocar */
+  border-color: rgba(0, 123, 255, 0.5); /* Cambia el color del borde al enfocar */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Añade una sombra al enfocar */
+}
+
+.mensaje-validacion{
+  color: red;
+}

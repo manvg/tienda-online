@@ -1,0 +1,119 @@
+<app-menu (carritoClicked)="toggleCarrito()"></app-menu>
+
+<app-carrito *ngIf="carritoVisible" (closeCarrito)="closeCarrito()"></app-carrito>
+
+<div class="container mt-4 p-4" style="background-color: white; border-radius: 10px; max-width: 800px; margin: auto;">
+  <ul class="nav nav-tabs mb-4" id="miCuentaItems" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link active" id="datos-personales-tab" data-bs-toggle="tab" data-bs-target="#datos-personales"
+        type="button" role="tab" aria-controls="datos-personales" aria-selected="true">Editar Datos Personales</button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link" id="cambiar-contrasena-tab" data-bs-toggle="tab" data-bs-target="#cambiar-contrasena"
+        type="button" role="tab" aria-controls="cambiar-contrasena" aria-selected="false">Cambiar Contraseña</button>
+    </li>
+  </ul>
+
+  <div class="tab-content" id="miCuentaContenido">
+    <div class="tab-pane fade show active" id="datos-personales" role="tabpanel" aria-labelledby="datos-personales-tab">
+      <h4 class="mb-4">Datos Personales</h4>
+      <form [formGroup]="miCuentaForm" (ngSubmit)="onGuardarDatosPersonales()">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nombre <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="nombre" maxlength="30" formControlName="nombre">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('nombre')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('nombre')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('nombre'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('nombre')?.errors?.['soloLetras']">{{miCuentaForm.get('nombre')?.errors?.['soloLetras']}}</small>
+            </div>
+            <div *ngIf="!enviadoDatosPersonales && miCuentaForm.get('nombre')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('nombre')?.errors?.['soloLetras']">{{miCuentaForm.get('nombre')?.errors?.['soloLetras']}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Apellidos <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="apellidos" maxlength="30" formControlName="apellidos">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('apellidos')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('apellidos'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidos')?.errors?.['soloLetras']}}</small>
+            </div>
+            <div *ngIf="miCuentaForm.get('apellidos')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidos')?.errors?.['soloLetras']}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Fecha nacimiento <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('fechaNacimiento')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('fechaNacimiento')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('fechaNacimiento'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('fechaNacimiento')?.errors?.['menorEdad']">{{miCuentaForm.get('fechaNacimiento')?.errors?.['menorEdad']}}</small>
+            </div>
+            <div *ngIf="!enviadoDatosPersonales && miCuentaForm.get('fechaNacimiento')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('fechaNacimiento')?.errors?.['menorEdad']">{{miCuentaForm.get('fechaNacimiento')?.errors?.['menorEdad']}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Teléfono <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="telefono" maxlength="9" formControlName="telefono" autocomplete="off">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('telefono')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('telefono')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('telefono'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('telefono')?.errors?.['soloNumeros']">{{miCuentaForm.get('telefono')?.errors?.['soloNumeros']}}</small>
+            </div>
+            <div *ngIf="!enviadoDatosPersonales && miCuentaForm.get('telefono')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('telefono')?.errors?.['soloNumeros']">{{miCuentaForm.get('telefono')?.errors?.['soloNumeros']}}</small>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Dirección de despacho</label>
+            <input type="text" class="form-control" id="direccion" maxlength="150" formControlName="direccion">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('direccion')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('direccion')?.errors?.['alphanumerico']">{{miCuentaForm.get('direccion')?.errors?.['alphanumerico']}}</small>
+            </div>
+            <div *ngIf="miCuentaForm.get('direccion')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('direccion')?.errors?.['alphanumerico']">{{miCuentaForm.get('direccion')?.errors?.['alphanumerico']}}</small>
+            </div>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="tab-pane fade" id="cambiar-contrasena" role="tabpanel" aria-labelledby="cambiar-contrasena-tab">
+      <h4 class="mb-4">Cambiar Contraseña</h4>
+      <form [formGroup]="cambiarContrasenaForm" (ngSubmit)="onGuardarNuevaContrasena()" class="needs-validation"
+        novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Contraseña actual<span class="text-danger">*</span></label>
+            <input type="password" class="form-control" id="contrasenaActual" formControlName="contrasenaActual">
+            <div *ngIf="enviadoCambiarContrasena && cambiarContrasenaForm.get('contrasenaActual')?.invalid">
+              <small class="mensaje-validacion"*ngIf="cambiarContrasenaForm.get('contrasenaActual')?.errors?.['required']">{{getErrorMessage(cambiarContrasenaForm.get('nuevaContrasena'))}}</small>
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('contrasenaActual')?.errors?.['validarContrasenaActual']">{{cambiarContrasenaForm.get('contrasenaActual')?.errors?.['validarContrasenaActual']}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Nueva Contraseña<span class="text-danger">*</span></label>
+            <input type="password" class="form-control" id="nuevaContrasena" formControlName="nuevaContrasena">
+            <div *ngIf="enviadoCambiarContrasena && cambiarContrasenaForm.get('nuevaContrasena')?.invalid">
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['required']">{{getErrorMessage(cambiarContrasenaForm.get('nuevaContrasena'))}}</small>
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['contrasenaRepetida']">{{cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['contrasenaRepetida']}}<br></small>
+            </div>
+            <div *ngIf="!enviadoCambiarContrasena && cambiarContrasenaForm.get('nuevaContrasena')?.invalid">
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['length']">{{cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['length']}}<br></small>
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['uppercase']">{{cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['uppercase']}}<br></small>
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['number']">{{cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['number']}}<br></small>
+              <small class="mensaje-validacion" *ngIf="cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['contrasenaRepetida']">{{cambiarContrasenaForm.get('nuevaContrasena')?.errors?.['contrasenaRepetida']}}<br></small>
+            </div>
+          </div>
+          <div class="col-12 text-end">
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

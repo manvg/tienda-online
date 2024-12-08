@@ -1,0 +1,25 @@
+<h4 class="mt-4 text-center" mat-dialog-title>Editar Usuario</h4>
+<div mat-dialog-content class="edit-user-dialog-content">
+  <form [formGroup]="form" class="edit-user-form">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Nombre</mat-label>
+      <input matInput formControlName="nombre">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Apellidos</mat-label>
+      <input matInput formControlName="apellidos">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Perfil</mat-label>
+      <input matInput formControlName="perfil">
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions class="edit-user-dialog-actions">
+  <button mat-button (click)="onNoClick()" class="btn-cancel">Cancelar</button>
+  <button mat-button (click)="onSaveClick()" [disabled]="form.invalid" class="btn-save">Guardar</button>
+</div>

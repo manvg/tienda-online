@@ -1,0 +1,117 @@
+<app-menu (carritoClicked)="toggleCarrito()"></app-menu>
+
+<app-carrito *ngIf="carritoVisible" (closeCarrito)="closeCarrito()"></app-carrito>
+<br>
+<div class="container form-container">
+  <div class="card form-card shadow p-4">
+    <h2 class="text-center">{{titulo}}</h2>
+    <form [formGroup]="formRegistro" (ngSubmit)="formularioRegistro()">
+      <div class="row mt-3 justify-content-center">
+        <div class="col-md-4">
+          <label class="form-label">Nombre <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="nombre" maxlength="30" formControlName="nombre">
+          <div *ngIf="enviado && formRegistro.get('nombre')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('nombre')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('nombre')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
+          </div>
+          <div *ngIf="formRegistro.get('nombre')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('nombre')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Apellidos <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="apellidos" maxlength="30" formControlName="apellidos">
+          <div *ngIf="enviado && formRegistro.get('apellidos')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
+          </div>
+          <div *ngIf="formRegistro.get('apellidos')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 justify-content-center">
+        <div class="col-md-4">
+          <label class="form-label">Dirección de despacho</label>
+          <input type="text" class="form-control" id="direccion" maxlength="150" formControlName="direccion">
+          <div *ngIf="enviado && formRegistro.get('direccion')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
+          </div>
+          <div *ngIf="formRegistro.get('direccion')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" maxlength="9" formControlName="telefono" autocomplete="off">
+          <div *ngIf="enviado && formRegistro.get('telefono')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
+          </div>
+          <div *ngIf="formRegistro.get('telefono')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 justify-content-center">
+        <div class="col-md-4">
+          <label class="form-label">Fecha nacimiento <span class="text-danger">*</span></label>
+          <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
+          <div *ngIf="enviado && formRegistro.get('fechaNacimiento')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('fechaNacimiento')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('fechaNacimiento')?.errors?.['menorEdad']">
+              Debe ser mayor de 18 años para registrarse.
+            </small>
+          </div>
+          <div *ngIf="formRegistro.get('fechaNacimiento')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('fechaNacimiento')?.errors?.['menorEdad']">
+              Debe ser mayor de 18 años para registrarse.
+            </small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+          <input type="email" class="form-control" id="correo" formControlName="correo">
+          <div *ngIf="enviado && formRegistro.get('correo')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('correo')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('correo')?.errors?.['email']">Formato de correo no válido.</small>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-3 justify-content-center">
+        <div class="col-md-4">
+          <label class="form-label">Contraseña <span class="text-danger">*</span></label>
+          <input type="password" class="form-control" id="contrasena" formControlName="contrasena">
+          <div *ngIf="enviado && formRegistro.get('contrasena')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('contrasena')?.errors?.['required']">Este campo es obligatorio. </small>
+          </div>
+          <div *ngIf="formRegistro.get('contrasena')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('contrasena')?.errors?.['length']">Largo entre 6 y 18 caracteres. </small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('contrasena')?.errors?.['uppercase']">Debe contener al menos una letra mayúscula. </small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('contrasena')?.errors?.['number']">Debe contener al menos un número. </small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Confirmar contraseña <span class="text-danger">*</span></label>
+          <input type="password" class="form-control" id="confirmarContrasena" formControlName="confirmarContrasena">
+          <div *ngIf="enviado && formRegistro.get('confirmarContrasena')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('confirmarContrasena')?.errors?.['required']">Este campo es obligatorio.</small>
+          </div>
+          <div *ngIf="enviado && formRegistro.errors?.['contrasenasDistintas']">
+            <small class="mensaje-validacion">Las contraseñas no coinciden.</small>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4 justify-content-end">
+        <div class="col-md-4">
+          <button (click)="limpiarFormulario()" type="button" class="btn btn-danger me-2">Limpiar</button>
+          <button type="submit" class="btn btn-primary">Registrarse</button>
+        </div>
+      </div>
+      <div class="mt-3 text-center">
+        <a routerLink="/login">¿Ya tienes una cuenta? Inicia Sesión</a>
+    </div>
+    </form>
+  </div>
+</div>
+<app-footer></app-footer>

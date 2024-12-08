@@ -1,0 +1,83 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+/* Galeria Carousel Inicio*/
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Cambio a transparente */
+}
+.carousel-item img {
+    max-height: 70vh; /* Ajusta la altura según tu necesidad */
+    max-width: 100%;
+    object-fit: contain;
+}
+.carousel {
+    max-width: 90vw; /* Ajusta el ancho máximo del carrusel */
+    margin: auto;
+}
+
+@media (min-width: 768px) {
+    .carousel-item img {
+        height: 70vh;
+    }
+}
+
+@media (min-width: 992px) {
+    .carousel-item img {
+        height: 80vh;
+    }
+}
+
+/* Modificar estilo clase 'Card' */
+.card {
+    background-color: transparent; /* Fondo transparente para la tarjeta */
+}
+/* Fondo semi-transparente para el cuerpo de la tarjeta */
+.card-body {
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 1; /* Restablece la opacidad a 1 para el cuerpo de la tarjeta */
+    text-align: center;
+}
+.card-body h5,
+.card-body .btn {
+    opacity: 1; /* Restablece la opacidad a 1 para el título y el botón dentro del cuerpo de la tarjeta */
+}
+
+/* Carrito de compras */
+.boton-carrito{
+    height: 50px;
+}
+.bi .bi-cart{
+    height: 20px;
+}
+/* Productos */
+.contenedor-productos{
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+/* Recuperacion contraseña */
+.recuperar-cuenta-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.recuperar-cuenta-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para el footer */
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #343a40; /* Cambia el color de fondo según tu diseño */
+    color: white;
+    text-align: center;
+}

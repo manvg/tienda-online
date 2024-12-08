@@ -1,0 +1,170 @@
+// @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+/* Galeria Carousel Inicio*/
+.carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.9); /* Cambio a transparente */
+}
+.carousel-item img {
+    max-height: 70vh; /* Ajusta la altura según tu necesidad */
+    max-width: 100%;
+    object-fit: contain;
+}
+.carousel {
+    max-width: 90vw; /* Ajusta el ancho máximo del carrusel */
+    margin: auto;
+}
+
+@media (min-width: 768px) {
+    .carousel-item img {
+        height: 70vh;
+    }
+}
+
+@media (min-width: 992px) {
+    .carousel-item img {
+        height: 80vh;
+    }
+}
+
+/* Menu */
+.navbar{
+    background-color: rgba(212, 130, 166, 0.8); /* Utiliza RGBA para añadir transparencia */
+}
+.custom-nav-text .nav-link {
+    color: #ffffff; /* Color de la letra */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 18px; /* Tamaño de la letra */
+    font-weight: 400; /* Peso de la letra */
+    text-transform: uppercase; /* Transformación del texto */
+    padding: 10px 20px; /* Espaciado interno */
+    text-decoration: none; /* Quita el subrayado por defecto */
+}
+
+.custom-nav-text .nav-link:hover {
+    color: black; /* Color al pasar el mouse por encima */
+    font-weight: 100; /* Peso de la letra al pasar el mouse */
+}
+
+.custom-nav-text .nav-link.active {
+    color: black; /* Color de la letra activa */
+    font-weight: 100; /* Peso de la letra activa */
+    text-decoration: underline; /* Subraya el texto activo */
+}
+
+.navbar-brand img {
+    height: 60px; /* Altura de la imagen */
+}
+.navbar-brand {
+    margin-right: 20px; /* Espaciado a la derecha de la marca */
+}
+.navbar-nav .nav-item {
+    margin: 0 15px; /* Ajusta el valor para más o menos espacio */
+}
+
+/* Modificar estilo clase 'Card' */
+.card {
+    background-color: transparent; /* Fondo transparente para la tarjeta */
+}
+/* Fondo semi-transparente para el cuerpo de la tarjeta */
+.card-body {
+    background-color: rgba(255, 255, 255, 0.8);
+    opacity: 1; /* Restablece la opacidad a 1 para el cuerpo de la tarjeta */
+    text-align: center;
+}
+.card-body h5,
+.card-body .btn {
+    opacity: 1; /* Restablece la opacidad a 1 para el título y el botón dentro del cuerpo de la tarjeta */
+}
+/* Carrito de compras */
+.boton-carrito{
+    height: 50px;
+}
+.bi .bi-cart{
+    height: 20px;
+}
+.cart-products {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 300px;
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
+    z-index: 1000;
+    padding: 20px;
+    overflow-y: auto;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.cart-products .close-btn {
+    cursor: pointer;
+    text-align: right;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+.cart-products h3 {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+}
+
+.cart-products .item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-products .item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+.cart-products .item-content {
+    flex: 1;
+    margin-left: 10px;
+    font-size: 0.9em;
+}
+
+.cart-products .item-content h5 {
+    margin: 0;
+    font-size: 1em;
+}
+
+.cart-products .item-content h6 {
+    margin: 0;
+    font-size: 0.8em;
+}
+
+.cart-products .delete-product {
+    cursor: pointer;
+    color: red;
+}
+
+.cart-products h2 {
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+
+.cart-products .btn {
+    font-size: 1em;
+}
+
+.contador-carrito {
+    position: absolute;
+    background-color: #ff0000;
+    color: #ffffff;
+    padding: .15rem .25rem;
+    border-radius: .25rem;
+    font-size: 12px;
+    font-weight: bold;
+}
+
