@@ -15,6 +15,7 @@ import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.compone
 import { DecodedToken } from '../../services/autenticacion/auth.service';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -27,7 +28,7 @@ import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.serv
     MatIconModule
   ],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   carritoVisible: boolean = false;

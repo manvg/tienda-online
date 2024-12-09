@@ -66,7 +66,6 @@ export class RegistroComponent implements OnInit {
         perfil: 'cliente'
       };
 
-      // Llamar al servicio para crear el usuario
       this.usuarioService.crearUsuario(nuevoUsuario).subscribe({
         next: () => {
           this.snackBar.open('Éxito | Usuario creado correctamente.', 'Cerrar', {
@@ -74,7 +73,7 @@ export class RegistroComponent implements OnInit {
             verticalPosition: 'top',
             horizontalPosition: 'right'
           });
-          this.formRegistro.reset();
+          this.limpiarFormulario(); // Usar el método recién agregado
           this.enviado = false;
           this.router.navigate(['/login']);
         },
@@ -88,6 +87,11 @@ export class RegistroComponent implements OnInit {
         }
       });
     }
+  }
+
+  limpiarFormulario(): void {
+    this.formRegistro.reset(); // Reinicia el formulario
+    this.enviado = false; // Restablece la bandera de envío
   }
 
   //#region Validaciones

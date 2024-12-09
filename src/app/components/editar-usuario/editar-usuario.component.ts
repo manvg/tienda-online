@@ -13,7 +13,7 @@ import { UsuarioService } from '../../services/usuario/usuario.service';
 @Component({
   selector: 'app-editar-usuario',
   standalone: true,
-  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
+  imports: [  MatIconModule,MatFormFieldModule,MatInputModule,MatButtonModule,ReactiveFormsModule],
   templateUrl: './editar-usuario.component.html',
   styleUrl: './editar-usuario.component.scss'
 })
