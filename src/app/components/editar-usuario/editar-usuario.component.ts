@@ -8,12 +8,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { StorageService } from '../../services/storage/storage.service';
+import { UsuarioService } from '../../services/usuario/usuario.service';
 
 @Component({
   selector: 'app-editar-usuario',
   standalone: true,
-  imports: [  MatIconModule,MatFormFieldModule,MatInputModule,MatButtonModule,ReactiveFormsModule],
+  imports: [MatIconModule, MatFormFieldModule, MatInputModule, MatButtonModule, ReactiveFormsModule],
   templateUrl: './editar-usuario.component.html',
   styleUrl: './editar-usuario.component.scss'
 })
@@ -23,14 +23,17 @@ export class EditarUsuarioComponent {
   constructor(
     public dialogRef: MatDialogRef<EditarUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { usuario: Usuario },
-    private fb: FormBuilder,private storageService: StorageService,
+    private fb: FormBuilder,
+    private usuarioService: UsuarioService,
     private snackBar: MatSnackBar
   ) {
+    const { nombre, apellidos, email, perfil } = data.usuario;
+
     this.form = this.fb.group({
-      nombre: [data.usuario.nombre, Validators.required],
-      apellidos: [data.usuario.apellidos, Validators.required],
-      email: [data.usuario.email, Validators.required],
-      perfil: [data.usuario.perfil, Validators.required]
+      nombre: [nombre, Validators.required],
+      apellidos: [apellidos, Validators.required],
+      email: [email, [Validators.required, Validators.email]],
+      perfil: [perfil, Validators.required]
     });
   }
 
@@ -39,29 +42,34 @@ export class EditarUsuarioComponent {
   }
 
   async onSaveClick(): Promise<void> {
-    if (this.form.valid) {
-      const updatedUser: Usuario = {
-        ...this.data.usuario,
-        nombre: this.form.get('nombre')?.value,
-        apellidos: this.form.get('apellidos')?.value,
-        perfil: this.form.get('perfil')?.value
-      };
+    if (this.form.invalid) {
+      this.snackBar.open('Por favor completa todos los campos correctamente.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
+      return;
+    }
 
-      try {
-        await this.storageService.actualizarUsuario(updatedUser);
-        this.dialogRef.close(updatedUser);
-        this.snackBar.open('Usuario actualizado correctamente.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-      } catch (error) {
-        this.snackBar.open('Error al actualizar el usuario.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-      }
+    const updatedUser: Usuario = {
+      ...this.data.usuario,
+      ...this.form.value
+    };
+
+    try {
+      const response = await this.usuarioService.actualizarUsuario(updatedUser).toPromise();
+      this.dialogRef.close(response);
+      this.snackBar.open('Usuario actualizado correctamente.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
+    } catch (error) {
+      this.snackBar.open('Error al actualizar el usuario.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
     }
   }
 }

@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
             console.log('Usuario actual:', usuario);
 
             // Redirigir según el perfil del usuario
-            if (usuario && usuario.roles.includes('admin')) {
+            if (usuario && usuario.perfil.includes('admin')) {
               this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/mi-cuenta']);

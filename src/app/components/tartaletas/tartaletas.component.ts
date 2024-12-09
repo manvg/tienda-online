@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
@@ -6,7 +6,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { Producto } from '../../models/dto/producto.model';
-import { StorageService } from '../../services/storage/storage.service';
+import { ProductoService } from '../../services/producto/producto.service';
 
 @Component({
   selector: 'app-tartaletas',
@@ -15,32 +15,40 @@ import { StorageService } from '../../services/storage/storage.service';
   templateUrl: './tartaletas.component.html',
   styleUrl: './tartaletas.component.scss'
 })
-export class TartaletasComponent {
+export class TartaletasComponent implements OnInit {
   productos: Producto[] = [];
   titulo: string = 'Tartaletas';
   carritoVisible: boolean = false;
 
-  constructor(private carritoService: CarritoService, private storageService: StorageService) {}
+  constructor(
+    private carritoService: CarritoService,
+    private productoService: ProductoService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.obtenerProductos();
   }
 
-  obtenerProductos() {
-    this.storageService.getJsonData().subscribe((data: { [key: string]: Producto }) => {
-      this.productos = Object.values(data).filter((producto: Producto) => producto.categoria === 'tartaletas');
+  obtenerProductos(): void {
+    this.productoService.getProductos().subscribe({
+      next: (data: Producto[]) => {
+        this.productos = data.filter((producto: Producto) => producto.categoria === 'tartaletas');
+      },
+      error: (err) => {
+        console.error('Error al obtener los productos:', err);
+      }
     });
   }
 
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: Producto): void {
     this.carritoService.agregarProducto(producto);
   }
 
-  toggleCarrito() {
+  toggleCarrito(): void {
     this.carritoVisible = !this.carritoVisible;
   }
 
-  closeCarrito() {
+  closeCarrito(): void {
     this.carritoVisible = false;
   }
 }

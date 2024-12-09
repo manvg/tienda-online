@@ -6,41 +6,49 @@ import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { Producto } from '../../models/dto/producto.model';
-import { StorageService } from '../../services/storage/storage.service';
+import { ProductoService } from '../../services/producto/producto.service';
 
 @Component({
   selector: 'app-tortas',
   standalone: true,
   imports: [CommonModule, RouterModule, MenuComponent, FooterComponent, CarritoComponent],
   templateUrl: './tortas.component.html',
-  styleUrls: ['./tortas.component.scss']
+  styleUrl: './tortas.component.scss'
 })
 export class TortasComponent implements OnInit {
   productos: Producto[] = [];
   titulo: string = 'Tortas';
   carritoVisible: boolean = false;
 
-  constructor(private carritoService: CarritoService, private storageService: StorageService) {}
+  constructor(
+    private carritoService: CarritoService,
+    private productoService: ProductoService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.obtenerProductos();
   }
 
-  obtenerProductos() {
-    this.storageService.getJsonData().subscribe((data: { [key: string]: Producto }) => {
-      this.productos = Object.values(data).filter((producto: Producto) => producto.categoria === 'tortas');
+  obtenerProductos(): void {
+    this.productoService.getProductos().subscribe({
+      next: (data: Producto[]) => {
+        this.productos = data.filter((producto: Producto) => producto.categoria === 'tortas');
+      },
+      error: (err) => {
+        console.error('Error al obtener los productos:', err);
+      }
     });
   }
 
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: Producto): void {
     this.carritoService.agregarProducto(producto);
   }
 
-  toggleCarrito() {
+  toggleCarrito(): void {
     this.carritoVisible = !this.carritoVisible;
   }
 
-  closeCarrito() {
+  closeCarrito(): void {
     this.carritoVisible = false;
   }
 }

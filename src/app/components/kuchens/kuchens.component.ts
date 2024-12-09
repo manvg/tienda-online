@@ -6,7 +6,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { Producto } from '../../models/dto/producto.model';
-import { StorageService } from '../../services/storage/storage.service';
+import { ProductoService } from '../../services/producto/producto.service';
 
 @Component({
   selector: 'app-kuchens',
@@ -19,28 +19,36 @@ export class KuchensComponent implements OnInit {
   productos: Producto[] = [];
   titulo: string = 'Kuchens';
   carritoVisible: boolean = false;
-  constructor(private carritoService: CarritoService, private storageService: StorageService) {}
 
-  ngOnInit() {
+  constructor(
+    private carritoService: CarritoService,
+    private productoService: ProductoService
+  ) {}
+
+  ngOnInit(): void {
     this.obtenerProductos();
   }
 
-   obtenerProductos() {
-    this.storageService.getJsonData().subscribe((data: { [key: string]: Producto }) => {
-      this.productos = Object.values(data).filter((producto: Producto) => producto.categoria === 'kuchen');
+  obtenerProductos(): void {
+    this.productoService.getProductos().subscribe({
+      next: (data: Producto[]) => {
+        this.productos = data.filter((producto: Producto) => producto.categoria === 'kuchen');
+      },
+      error: (err) => {
+        console.error('Error al obtener los productos:', err);
+      }
     });
   }
 
-
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: Producto): void {
     this.carritoService.agregarProducto(producto);
   }
 
-  toggleCarrito() {
+  toggleCarrito(): void {
     this.carritoVisible = !this.carritoVisible;
   }
 
-  closeCarrito() {
+  closeCarrito(): void {
     this.carritoVisible = false;
   }
 }

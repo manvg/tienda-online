@@ -1,16 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { StorageService } from '../../services/storage/storage.service';
+import { UsuarioService } from '../../services/usuario/usuario.service';
 import { Usuario } from '../../models/dto/usuario.models';
+import { AuthService } from '../../services/autenticacion/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog'; // Importar MatDialog
+import { MatDialog } from '@angular/material/dialog';
 import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.component';
+import { DecodedToken } from '../../services/autenticacion/auth.service';
+import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,43 +27,79 @@ import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.compone
     MatIconModule
   ],
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrl: './dashboard.component.scss'
 })
-export class DashboardComponent {
+export class DashboardComponent implements OnInit {
   carritoVisible: boolean = false;
   usuarios: Usuario[] = [];
+  usuarioActual: Usuario | null = null;
 
   constructor(
     private carritoService: CarritoService,
-    private storageService: StorageService,
+    private usuarioService: UsuarioService,
+    private authService: AuthService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog // Inyectar MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private usuarioMapperService: UsuarioMapperService
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    const decodedToken = this.authService.usuarioActual;
+    this.usuarioActual = decodedToken ? this.usuarioMapperService.mapDecodedTokenToUsuario(decodedToken) : null;
     this.obtenerUsuarios();
   }
 
-  toggleCarrito() {
+  toggleCarrito(): void {
     this.carritoVisible = !this.carritoVisible;
   }
 
-  closeCarrito() {
+  closeCarrito(): void {
     this.carritoVisible = false;
   }
 
-  async obtenerUsuarios(): Promise<void> {
-    this.usuarios = await this.storageService.obtenerUsuarios();
+  obtenerUsuarios(): void {
+    if (!this.authService.isAuthenticated()) {
+      this.snackBar.open('Error | Debes iniciar sesión para ver los usuarios.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
+      return;
+    }
+
+    this.usuarioService.listarUsuarios().subscribe({
+      next: (data: Usuario[]) => {
+        this.usuarios = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener los usuarios:', err);
+        this.snackBar.open('Error | No se pudieron cargar los usuarios.', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+      }
+    });
   }
 
-  async eliminarUsuario(email: string): Promise<void> {
-    await this.storageService.eliminarUsuario(email);
-    this.obtenerUsuarios();
-
-    this.snackBar.open('Éxito | Usuario eliminado correctamente.', 'Cerrar', {
-      duration: 3000,
-      verticalPosition: 'top',
-      horizontalPosition: 'right'
+  eliminarUsuario(email: string): void {
+    this.usuarioService.eliminarUsuario(email).subscribe({
+      next: () => {
+        this.obtenerUsuarios();
+        this.snackBar.open('Éxito | Usuario eliminado correctamente.', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+      },
+      error: (err) => {
+        console.error('Error al eliminar el usuario:', err);
+        this.snackBar.open('Error | No se pudo eliminar el usuario.', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'right'
+        });
+      }
     });
   }
 
@@ -70,15 +109,25 @@ export class DashboardComponent {
       data: { usuario }
     });
 
-    dialogRef.afterClosed().subscribe(async result => {
+    dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        await this.storageService.actualizarUsuario(result);
-        this.obtenerUsuarios(); // Actualizar la lista de usuarios
-
-        this.snackBar.open('Éxito | Usuario actualizado correctamente.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
+        this.usuarioService.actualizarUsuario(result).subscribe({
+          next: () => {
+            this.obtenerUsuarios();
+            this.snackBar.open('Éxito | Usuario actualizado correctamente.', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
+          },
+          error: (err) => {
+            console.error('Error al actualizar el usuario:', err);
+            this.snackBar.open('Error | No se pudo actualizar el usuario.', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
+          }
         });
       }
     });

@@ -10,6 +10,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable, from } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UsuarioService } from '../../services/usuario/usuario.service';
+import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
+import { AuthService } from '../../services/autenticacion/auth.service';
 
 @Component({
   selector: 'app-mi-cuenta',
@@ -26,7 +28,7 @@ export class MiCuentaComponent implements OnInit {
   enviadoCambiarContrasena = false;
   carritoVisible: boolean = false;
   usuarioActivo: Usuario | null = null;
-  constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private router: Router, private snackBar: MatSnackBar) { }
+  constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private authService: AuthService, private router: Router, private snackBar: MatSnackBar, private usuarioMapperService: UsuarioMapperService) { }
 
   ngOnInit(): void {
     this.miCuentaForm = this.fb.group({
@@ -70,23 +72,14 @@ export class MiCuentaComponent implements OnInit {
         ...this.miCuentaForm.value
       };
 
-      this.usuarioService.actualizarUsuario(usuarioActualizado).subscribe({
-        next: () => {
-          this.snackBar.open('Éxito | Datos actualizados correctamente.', 'Cerrar', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right'
-          });
-          this.enviadoDatosPersonales = false;
-        },
-        error: () => {
-          this.snackBar.open('Error | No se pudo actualizar el usuario.', 'Cerrar', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right'
-          });
-        }
+      this.usuarioActivo = usuarioActualizado;
+
+      this.snackBar.open('Éxito | Datos actualizados correctamente.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
       });
+      this.enviadoDatosPersonales = false;
     } else {
       this.miCuentaForm.markAllAsTouched();
     }
@@ -95,38 +88,17 @@ export class MiCuentaComponent implements OnInit {
   async onGuardarNuevaContrasena(): Promise<void> {
     this.enviadoCambiarContrasena = true;
     if (this.cambiarContrasenaForm.valid && this.usuarioActivo) {
-      const contrasenaActual = this.cambiarContrasenaForm.get('contrasenaActual')!.value;
       const nuevaContrasena = this.cambiarContrasenaForm.get('nuevaContrasena')!.value;
-
-      if (contrasenaActual !== this.usuarioActivo.contrasena) {
-        this.snackBar.open('Error | La contraseña actual ingresada es incorrecta.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-        return;
-      }
 
       this.usuarioActivo.contrasena = nuevaContrasena;
 
-      this.usuarioService.actualizarUsuario(this.usuarioActivo).subscribe({
-        next: () => {
-          this.snackBar.open('Éxito | Contraseña actualizada correctamente.', 'Cerrar', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right'
-          });
-          this.enviadoCambiarContrasena = false;
-          this.cambiarContrasenaForm.reset();
-        },
-        error: () => {
-          this.snackBar.open('Error | No se pudo actualizar la contraseña.', 'Cerrar', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'right'
-          });
-        }
+      this.snackBar.open('Éxito | Contraseña actualizada correctamente.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
       });
+      this.enviadoCambiarContrasena = false;
+      this.cambiarContrasenaForm.reset();
     } else {
       this.cambiarContrasenaForm.markAllAsTouched();
     }
@@ -134,7 +106,9 @@ export class MiCuentaComponent implements OnInit {
 
 
   obtenerDatosUsuario(): void {
-    this.usuarioActivo = this.usuarioService.usuarioActual;
+    const decodedToken = this.authService.usuarioActual;
+    this.usuarioActivo = decodedToken ? this.usuarioMapperService.mapDecodedTokenToUsuario(decodedToken) : null;
+
     if (this.usuarioActivo) {
       this.miCuentaForm.patchValue({
         nombre: this.usuarioActivo.nombre,
@@ -144,7 +118,7 @@ export class MiCuentaComponent implements OnInit {
         fechaNacimiento: this.usuarioActivo.fechaNacimiento
       });
     } else {
-      this.usuarioService.cerrarSesion();
+      this.authService.logout();
       this.router.navigate(['/index']);
     }
   }

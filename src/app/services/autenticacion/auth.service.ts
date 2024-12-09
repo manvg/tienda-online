@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 import jwtDecode from 'jwt-decode';
 import { AuthResponse } from '../../models/dto/authResponse.model';
 
-interface DecodedToken {
+export interface DecodedToken {
   id: number;
   email: string;
   perfil: string;
