@@ -13,22 +13,8 @@ import localeEsCl from '@angular/common/locales/es-CL';
 import { LOCALE_ID } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
-import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
-import { provideDatabase, getDatabase } from '@angular/fire/database';
 
 registerLocaleData(localeEsCl, 'es-CL');
-
-// Configuración de Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyD77f7BEa0t7-42yUqkbV8yxPccB_hCkzI",
-  authDomain: "app-reposteria-d4bdd.firebaseapp.com",
-  databaseURL: "https://app-reposteria-d4bdd-default-rtdb.firebaseio.com",
-  projectId: "app-reposteria-d4bdd",
-  storageBucket: "app-reposteria-d4bdd.appspot.com",
-  messagingSenderId: "201350245410",
-  appId: "1:201350245410:web:14d9e633640f6da9f66e7b",
-  measurementId: "G-KLDBZCNYKL"
-};
 
 bootstrapApplication(AppComponent, {
   ...appConfig,
@@ -43,8 +29,6 @@ bootstrapApplication(AppComponent, {
       MatDialogModule,
       HttpClientModule
     ),
-    provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideDatabase(() => getDatabase()),
     { provide: LOCALE_ID, useValue: 'es-CL' }
   ]
 })
