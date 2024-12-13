@@ -11,10 +11,10 @@ export class UsuarioMapperService {
       email: decodedToken.email,
       perfil: decodedToken.perfil,
       nombre: decodedToken.nombre,
-      apellidos: '',
-      direccion: '',
-      fechaNacimiento: new Date(),
-      telefono: 0,
+      apellidos: decodedToken.apellidos,
+      direccion: decodedToken.direccion,
+      fechaNacimiento: decodedToken.fechaNacimiento,
+      telefono: decodedToken.telefono,
       contrasena: ''
     };
   }

@@ -52,7 +52,7 @@ export class LocalStorageService {
         apellidos: 'Valdés Guerra',
         fechaNacimiento: new Date('1900-01-01'),
         direccion: '',
-        telefono: 999999999,
+        telefono: "999999999",
         email: 'admin@gmail.com',
         contrasena: '1234',
         perfil: 'admin'

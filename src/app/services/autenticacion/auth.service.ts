@@ -11,6 +11,10 @@ export interface DecodedToken {
   email: string;
   perfil: string;
   nombre: string;
+  apellidos: string;
+  fechaNacimiento: Date;
+  telefono: string;
+  direccion: string;
   exp: number;
 }
 
@@ -31,8 +35,8 @@ export class AuthService {
     this.currentUser$ = this.currentUserSubject.asObservable();
   }
 
-  login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(this.apiUrl, { email, password }).pipe(
+  login(email: string, contrasena: string): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(this.apiUrl, { email, contrasena }).pipe(
       tap((response: AuthResponse) => {
         if (response.status) {
           localStorage.setItem(this.tokenKey, response.token);
