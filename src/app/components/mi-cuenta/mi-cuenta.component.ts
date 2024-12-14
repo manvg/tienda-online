@@ -5,10 +5,8 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
-import { Usuario } from '../../models/dto/usuario.models';
+import { Usuario } from '../../models/entities/usuario.models';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable, from } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 import { AuthService } from '../../services/autenticacion/auth.service';
@@ -33,7 +31,8 @@ export class MiCuentaComponent implements OnInit {
   ngOnInit(): void {
     this.miCuentaForm = this.fb.group({
       nombre: ['', { validators: [Validators.required, this.soloLetrasValidator()], updateOn: 'change' }],
-      apellidos: ['', { validators: [Validators.required, this.soloLetrasValidator()], updateOn: 'change' }],
+      apellidoPaterno: ['', { validators: [Validators.required, this.soloLetrasValidator()], updateOn: 'change' }],
+      apellidoMaterno: ['', { validators: [Validators.required, this.soloLetrasValidator()], updateOn: 'change' }],
       fechaNacimiento: ['', { validators: [Validators.required, this.validarEdad(18)], updateOn: 'change' }],
       direccion: ['', { validators: [this.alphanumericoValidator()], updateOn: 'change' }],
       telefono: ['', { validators: [Validators.required, this.soloNumerosValidator()], updateOn: 'change' }]
@@ -112,7 +111,8 @@ export class MiCuentaComponent implements OnInit {
     if (this.usuarioActivo) {
       this.miCuentaForm.patchValue({
         nombre: this.usuarioActivo.nombre,
-        apellidos: this.usuarioActivo.apellidos,
+        apellidoPaterno: this.usuarioActivo.apellidoPaterno,
+        apellidoMaterno: this.usuarioActivo.apellidoMaterno,
         direccion: this.usuarioActivo.direccion,
         telefono: this.usuarioActivo.telefono,
         fechaNacimiento: this.usuarioActivo.fechaNacimiento

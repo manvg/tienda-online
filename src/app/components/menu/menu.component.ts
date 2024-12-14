@@ -1,11 +1,10 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../services/autenticacion/auth.service';
-import { Usuario } from '../../models/dto/usuario.models';
+import { Usuario } from '../../models/entities/usuario.models';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
 
 @Component({
   selector: 'app-menu',

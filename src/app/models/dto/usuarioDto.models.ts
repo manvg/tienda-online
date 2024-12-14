@@ -1,6 +1,7 @@
-export interface Usuario {
+export interface UsuarioDto {
   nombre: string;
-  apellidos: string;
+  apellidoPaterno: string;
+  apellidoMaterno: string;
   direccion: string;
   fechaNacimiento: Date,
   telefono: string;

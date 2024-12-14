@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Producto } from '../../models/dto/producto.model';
+import { map, Observable } from 'rxjs';
+import { Producto } from '../../models/entities/producto.models';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,22 @@ export class ProductoService {
   constructor(private http: HttpClient) {}
 
   // Obtener todos los productos
-  getProductos(): Observable<Producto[]> {
-    return this.http.get<Producto[]>(this.apiUrl);
+  getProductos(): Observable<ProductoDto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}`).pipe(
+      map((productos: Producto[]) =>
+        productos.map(producto => ({
+          categoria: producto.categoria,
+          idProducto: producto.idProducto.toString(),
+          imagen: producto.urlImagen,
+          titulo: producto.nombre,
+          descricion: producto.descripcion,
+          precio: producto.precio.toString(),
+          cantidad: 0,
+        }))
+      )
+    );
   }
+
 
   // Obtener un producto por ID
   getProductoById(id: string): Observable<Producto> {

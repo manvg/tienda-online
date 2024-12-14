@@ -6,15 +6,15 @@ import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { UsuarioService } from '../../services/usuario/usuario.service';
-import { Usuario } from '../../models/dto/usuario.models';
+import { Perfil, Usuario } from '../../models/entities/usuario.models';
 import { AuthService } from '../../services/autenticacion/auth.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.component';
-import { DecodedToken } from '../../services/autenticacion/auth.service';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
-
+import { MatSelectModule } from '@angular/material/select';
+import { MatOptionModule } from '@angular/material/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -25,7 +25,9 @@ import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.serv
     MenuComponent,
     FooterComponent,
     CarritoComponent,
-    MatIconModule
+    MatIconModule,
+    MatSelectModule, // Importar MatSelectModule
+    MatOptionModule  // Importar MatOptionModule
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -34,6 +36,10 @@ export class DashboardComponent implements OnInit {
   carritoVisible: boolean = false;
   usuarios: Usuario[] = [];
   usuarioActual: Usuario | null = null;
+  perfiles: Perfil[] = [
+    { idPerfil: 1, nombre: 'Administrador' },
+    { idPerfil: 2, nombre: 'Cliente' }
+  ];
 
   constructor(
     private carritoService: CarritoService,
@@ -112,25 +118,9 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.usuarioService.actualizarUsuario(result).subscribe({
-          next: () => {
-            this.obtenerUsuarios();
-            this.snackBar.open('Éxito | Usuario actualizado correctamente.', 'Cerrar', {
-              duration: 3000,
-              verticalPosition: 'top',
-              horizontalPosition: 'right'
-            });
-          },
-          error: (err) => {
-            console.error('Error al actualizar el usuario:', err);
-            this.snackBar.open('Error | No se pudo actualizar el usuario.', 'Cerrar', {
-              duration: 3000,
-              verticalPosition: 'top',
-              horizontalPosition: 'right'
-            });
-          }
-        });
+        this.obtenerUsuarios();
       }
     });
   }
+
 }

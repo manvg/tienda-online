@@ -5,7 +5,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { Producto } from '../../models/dto/producto.model';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 
 @Component({
   selector: 'app-index',
@@ -20,7 +20,7 @@ export class IndexComponent {
   constructor(private carritoService: CarritoService) {}
   ngOnInit() {}
 
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: ProductoDto) {
     this.carritoService.agregarProducto(producto);
   }
 

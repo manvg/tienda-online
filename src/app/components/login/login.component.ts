@@ -58,13 +58,12 @@ export class LoginComponent implements OnInit {
         next: (response: AuthResponse) => {
           this.loading = false;
           if (response.status) {
-            console.log('Inicio de sesión exitoso, token recibido:', response.token);
+            console.log('Inicio de sesión exitoso');
 
             const usuario = this.authService.usuarioActual;
             console.log('Usuario actual:', usuario);
 
-            // Redirigir según el perfil del usuario
-            if (usuario && usuario.perfil.includes('admin')) {
+            if (usuario && usuario.perfil.nombre.includes('Administrador')) {
               this.router.navigate(['/dashboard']);
             } else {
               this.router.navigate(['/mi-cuenta']);
@@ -75,9 +74,14 @@ export class LoginComponent implements OnInit {
         },
         error: (err) => {
           this.loading = false;
-          console.error('Error durante el inicio de sesión:', err);
 
-          this.loginError = 'Hubo un error durante el inicio de sesión. Por favor, inténtelo de nuevo más tarde.';
+          console.error('Error durante el inicio de sesión:', err);
+          if(err.error !== null && err.error !== '' && err.error !== undefined){
+            this.loginError = err.error.message;
+          }else{
+            this.loginError = 'Hubo un error durante el inicio de sesión. Por favor, inténtelo de nuevo más tarde.';
+          }
+
         }
       });
     } else {

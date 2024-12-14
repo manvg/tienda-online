@@ -5,7 +5,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { Producto } from '../../models/dto/producto.model';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 import { ProductoService } from '../../services/producto/producto.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ProductoService } from '../../services/producto/producto.service';
   styleUrl: './tortas.component.scss'
 })
 export class TortasComponent implements OnInit {
-  productos: Producto[] = [];
+  productos: ProductoDto[] = [];
   titulo: string = 'Tortas';
   carritoVisible: boolean = false;
 
@@ -31,8 +31,8 @@ export class TortasComponent implements OnInit {
 
   obtenerProductos(): void {
     this.productoService.getProductos().subscribe({
-      next: (data: Producto[]) => {
-        this.productos = data.filter((producto: Producto) => producto.categoria === 'tortas');
+      next: (data: ProductoDto[]) => {
+        this.productos = data.filter((producto: ProductoDto) => producto.categoria === 'tortas');
       },
       error: (err) => {
         console.error('Error al obtener los productos:', err);
@@ -40,7 +40,7 @@ export class TortasComponent implements OnInit {
     });
   }
 
-  agregarProducto(producto: Producto): void {
+  agregarProducto(producto: ProductoDto): void {
     this.carritoService.agregarProducto(producto);
   }
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { Producto } from '../../models/dto/producto.model';
 import { CommonModule, formatCurrency } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 
 @Component({
   selector: 'app-carrito',
@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrl: './carrito.component.scss'
 })
 export class CarritoComponent implements OnInit {
-  productos: Producto[] = [];
+  productos: ProductoDto[] = [];
   precioTotal: number = 0;
   @Output() closeCarrito = new EventEmitter<void>();
   constructor(private carritoService: CarritoService, private snackBar: MatSnackBar) {}
@@ -27,8 +27,8 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-  eliminarProducto(producto: Producto) {
-    const productos = this.productos.filter(p => p.id_producto !== producto.id_producto);
+  eliminarProducto(producto: ProductoDto) {
+    const productos = this.productos.filter(p => p.idProducto !== producto.idProducto);
     const precioTotal = productos.reduce((total, p) => total + (parseFloat(p.precio) * p.cantidad), 0);
     this.carritoService.actualizarProductos(productos);
     this.carritoService.actualizarPrecioTotal(precioTotal);

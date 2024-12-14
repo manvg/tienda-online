@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Usuario } from '../../models/dto/usuario.models';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { Usuario } from '../../models/entities/usuario.models';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +24,9 @@ export class UsuarioService {
   }
 
   actualizarUsuario(usuarioActualizado: Usuario): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${usuarioActualizado.email}`, usuarioActualizado);
+    return this.http.put(`${this.apiUrl}/${usuarioActualizado.idUsuario}`, usuarioActualizado);
   }
+
 
   eliminarUsuario(email: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${email}`);

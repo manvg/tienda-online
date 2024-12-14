@@ -20,11 +20,11 @@
         <tbody>
           <tr *ngFor="let usuario of usuarios">
             <td>{{ usuario.nombre }}</td>
-            <td>{{ usuario.apellidos }}</td>
+            <td>{{ usuario.apellidoPaterno + ' ' + usuario.apellidoMaterno }}</td>
             <td>{{ usuario.email }}</td>
-            <td>{{ usuario.perfil }}</td>
+            <td>{{ usuario.perfil.nombre }}</td>
             <td class="action-buttons">
-              <button *ngIf="usuario.perfil !== 'admin'" class="btn btn-danger" (click)="eliminarUsuario(usuario.email)">
+              <button *ngIf="usuario.perfil.nombre !== 'Administrador'" class="btn btn-danger" (click)="eliminarUsuario(usuario.email)">
                 <mat-icon>delete</mat-icon>
               </button>
               <button class="btn btn-primary" (click)="editarUsuario(usuario)">

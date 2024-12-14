@@ -5,18 +5,7 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import jwtDecode from 'jwt-decode';
 import { AuthResponse } from '../../models/dto/authResponse.model';
-
-export interface DecodedToken {
-  id: number;
-  email: string;
-  perfil: string;
-  nombre: string;
-  apellidos: string;
-  fechaNacimiento: Date;
-  telefono: string;
-  direccion: string;
-  exp: number;
-}
+import { DecodedToken } from '../../models/dto/DecodedToken.models';
 
 @Injectable({
   providedIn: 'root'

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Producto } from '../../models/dto/producto.model';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,16 +9,16 @@ export class CarritoService {
   private contadorCarritoSource = new BehaviorSubject<number>(0);
 
   contadorCarrito$ = this.contadorCarritoSource.asObservable();
-  private productosSource = new BehaviorSubject<Producto[]>([]);
+  private productosSource = new BehaviorSubject<ProductoDto[]>([]);
   productos$ = this.productosSource.asObservable();
 
 
   private precioTotalSource = new BehaviorSubject<number>(0);
   precioTotal$ = this.precioTotalSource.asObservable();
-  agregarProducto(producto: Producto) {
+  agregarProducto(producto: ProductoDto) {
     console.log('carrito.service.ts => inicio funcion agregarProducto...');
     const productos = this.productosSource.getValue();
-    const productoEnCarrito = productos.find(prod => prod.id_producto === producto.id_producto);
+    const productoEnCarrito = productos.find(prod => prod.idProducto === producto.idProducto);
 
     let precioTotalProductos = this.precioTotalSource.getValue();
     let contadorProductos = this.contadorCarritoSource.getValue();
@@ -28,13 +28,13 @@ export class CarritoService {
       precioTotalProductos += parseFloat(productoEnCarrito.precio);
     } else {
       console.log('carrito.service.ts => agregando producto al array...');
-      const infoProducto: Producto = {
+      const infoProducto: ProductoDto = {
         categoria: producto.categoria,
         imagen: producto.imagen,
         titulo: producto.titulo,
         descricion: producto.descricion,
         precio: producto.precio.replace('$', '').replace(/\./g, ''),
-        id_producto: producto.id_producto,
+        idProducto: producto.idProducto,
         cantidad: 1
       };
 
@@ -42,7 +42,7 @@ export class CarritoService {
       productos.push(infoProducto);
       contadorProductos++;
       console.log('contador array => ' + productos.length);
-      console.log('Producto agregado');
+      console.log('ProductoDto agregado');
     }
 
     this.productosSource.next(productos);
@@ -55,7 +55,7 @@ export class CarritoService {
     console.log('Se actualizó el contador a ' + contador);
   }
 
-  actualizarProductos(productos: Producto[]) {
+  actualizarProductos(productos: ProductoDto[]) {
     this.productosSource.next(productos);
     console.log('Se actualizaron los productos');
   }

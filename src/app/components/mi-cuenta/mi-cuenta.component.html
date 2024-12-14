@@ -31,16 +31,28 @@
             </div>
           </div>
           <div class="col-md-6">
-            <label class="form-label">Apellidos <span class="text-danger">*</span></label>
-            <input type="text" class="form-control" id="apellidos" maxlength="30" formControlName="apellidos">
-            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('apellidos')?.invalid">
-              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('apellidos'))}}</small>
-              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidos')?.errors?.['soloLetras']}}</small>
+            <label class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="apellidoPaterno" maxlength="30" formControlName="apellidoPaterno">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('apellidoPaterno')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoPaterno')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('apellidoPaterno'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoPaterno')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidoPaterno')?.errors?.['soloLetras']}}</small>
             </div>
-            <div *ngIf="miCuentaForm.get('apellidos')?.invalid">
-              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidos')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidos')?.errors?.['soloLetras']}}</small>
+            <div *ngIf="miCuentaForm.get('apellidoPaterno')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoPaterno')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidoPaterno')?.errors?.['soloLetras']}}</small>
             </div>
           </div>
+          <div class="col-md-6">
+            <label class="form-label">Apellido Materno <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="apellidoMaterno" maxlength="30" formControlName="apellidoMaterno">
+            <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('apellidoMaterno')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoMaterno')?.errors?.['required']">{{getErrorMessage(miCuentaForm.get('apellidoMaterno'))}}</small>
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoMaterno')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidoMaterno')?.errors?.['soloLetras']}}</small>
+            </div>
+            <div *ngIf="miCuentaForm.get('apellidoMaterno')?.invalid">
+              <small class="mensaje-validacion" *ngIf="miCuentaForm.get('apellidoMaterno')?.errors?.['soloLetras']">{{miCuentaForm.get('apellidoMaterno')?.errors?.['soloLetras']}}</small>
+            </div>
+          </div>
+
           <div class="col-md-6">
             <label class="form-label">Fecha nacimiento <span class="text-danger">*</span></label>
             <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">

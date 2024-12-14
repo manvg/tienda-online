@@ -6,7 +6,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { Usuario } from '../../models/dto/usuario.models';
+import { Usuario } from '../../models/entities/usuario.models';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -57,13 +57,15 @@ export class RegistroComponent implements OnInit {
     if (this.formRegistro.valid) {
       const nuevoUsuario: Usuario = {
         nombre: this.formRegistro.get('nombre')!.value,
-        apellidos: this.formRegistro.get('apellidos')!.value,
+        apellidoPaterno: this.formRegistro.get('apellidoPaterno')!.value,
+        apellidoMaterno: this.formRegistro.get('apellidoMaterno')!.value,
         fechaNacimiento: this.formRegistro.get('fechaNacimiento')!.value,
         direccion: this.formRegistro.get('direccion')!.value,
         telefono: this.formRegistro.get('telefono')!.value,
         email: this.formRegistro.get('correo')!.value,
         contrasena: this.formRegistro.get('contrasena')!.value,
-        perfil: 'cliente'
+        perfil: { idPerfil: 0, nombre: 'Cliente' },
+        idUsuario: 0
       };
 
       this.usuarioService.crearUsuario(nuevoUsuario).subscribe({

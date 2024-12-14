@@ -1,6 +1,6 @@
-export interface Producto {
+export interface ProductoDto {
   categoria: string;
-  id_producto: string;
+  idProducto: string;
   imagen: string;
   titulo: string;
   descricion: string;

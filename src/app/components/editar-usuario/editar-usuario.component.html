@@ -6,8 +6,12 @@
       <input matInput formControlName="nombre">
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Apellidos</mat-label>
-      <input matInput formControlName="apellidos">
+      <mat-label>Apellido Paterno</mat-label>
+      <input matInput formControlName="apellidoPaterno">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Apellido Materno</mat-label>
+      <input matInput formControlName="apellidoMaterno">
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Email</mat-label>
@@ -15,11 +19,15 @@
     </mat-form-field>
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Perfil</mat-label>
-      <input matInput formControlName="perfil">
+      <mat-select formControlName="perfil" [compareWith]="compararPerfiles">
+        <mat-option *ngFor="let p of perfiles" [value]="p">
+          {{ p.nombre }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
   </form>
 </div>
 <div mat-dialog-actions class="edit-user-dialog-actions">
-  <button mat-button (click)="onNoClick()" class="btn-cancel">Cancelar</button>
-  <button mat-button (click)="onSaveClick()" [disabled]="form.invalid" class="btn-save">Guardar</button>
+  <button mat-button (click)="cancelar()" class="btn-cancel">Cancelar</button>
+  <button mat-button (click)="guardar()" [disabled]="form.invalid" class="btn-save">Guardar</button>
 </div>

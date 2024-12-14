@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Usuario } from '../../models/dto/usuario.models';
+import { UsuarioDto } from '../../models/dto/usuarioDto.models';
 import { Router } from '@angular/router';
 
 /**
@@ -11,14 +11,14 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class LocalStorageService {
-  private usuarioActualSubject: BehaviorSubject<Usuario | null>;
+  private usuarioActualSubject: BehaviorSubject<UsuarioDto | null>;
 
   public usuarioActual$;
 
   constructor(private router: Router) {
     const usuarioActivo = this.getItem('usuarioActivo');
     const usuario = usuarioActivo ? JSON.parse(usuarioActivo) : null;
-    this.usuarioActualSubject = new BehaviorSubject<Usuario | null>(usuario);
+    this.usuarioActualSubject = new BehaviorSubject<UsuarioDto | null>(usuario);
     this.usuarioActual$ = this.usuarioActualSubject.asObservable();
   }
 
@@ -45,11 +45,12 @@ export class LocalStorageService {
 
   //#region Usuarios
   crearUsuarioAdminPorDefecto(): void {
-    const usuarios: Usuario[] = JSON.parse(this.getItem('usuarios') || '[]');
+    const usuarios: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
     if (!usuarios) {
-      const usuarioAdmin: Usuario = {
+      const usuarioAdmin: UsuarioDto = {
         nombre: 'Manuel',
-        apellidos: 'Valdés Guerra',
+        apellidoPaterno: 'Valdés',
+        apellidoMaterno: 'Valdés',
         fechaNacimiento: new Date('1900-01-01'),
         direccion: '',
         telefono: "999999999",
@@ -58,15 +59,15 @@ export class LocalStorageService {
         perfil: 'admin'
       };
 
-      const usuarios: Usuario[] = [usuarioAdmin];
+      const usuarios: UsuarioDto[] = [usuarioAdmin];
       this.setItem('usuarios', JSON.stringify(usuarios));
-      console.log('Usuario administrador por defecto creado');
+      console.log('UsuarioDto administrador por defecto creado');
     }
   }
 
 
   listarUsuarios(): void {
-    const usuariosGuardados: Usuario[] = JSON.parse(this.getItem('usuarios') || '[]');
+    const usuariosGuardados: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
     if (!usuariosGuardados) {
       this.crearUsuarioAdminPorDefecto();
     } else {
@@ -75,7 +76,7 @@ export class LocalStorageService {
       });
     }
   }
-  obtenerUsuarios(): Usuario[] {
+  obtenerUsuarios(): UsuarioDto[] {
     const listaUsuarios = this.getItem('usuarios');
     if (listaUsuarios) {
       return JSON.parse(listaUsuarios);
@@ -83,7 +84,7 @@ export class LocalStorageService {
     return [];
   }
 
-  obtenerUsuarioPorEmail(email: string): Usuario | null {
+  obtenerUsuarioPorEmail(email: string): UsuarioDto | null {
     const listaUsuarios = this.obtenerUsuarios();
     const usuarioLogin = listaUsuarios.find(user => user.email === email);
     return usuarioLogin ? usuarioLogin : null;
@@ -94,7 +95,7 @@ export class LocalStorageService {
     usuarios = usuarios.filter(usuario => usuario.email !== email);
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
   }
-  actualizarUsuario(usuarioActualizado: Usuario): void {
+  actualizarUsuario(usuarioActualizado: UsuarioDto): void {
     let usuarios = this.obtenerUsuarios();
     const index = usuarios.findIndex(usuario => usuario.email === usuarioActualizado.email);
     if (index !== -1) {
@@ -106,7 +107,7 @@ export class LocalStorageService {
 
   //#region Login
 
-  iniciarSesion(usuario: Usuario) {
+  iniciarSesion(usuario: UsuarioDto) {
     this.setItem('sesionActiva', 'true');
     this.setItem('usuarioActivo', JSON.stringify(usuario));
     this.usuarioActualSubject.next(usuario);
@@ -121,11 +122,11 @@ export class LocalStorageService {
     this.router.navigate(['/login']);
   }
 
-  get usuarioActual(): Usuario | null {
+  get usuarioActual(): UsuarioDto | null {
     return this.usuarioActualSubject.value;
   }
 
-  obtenerUsuarioActivo(): Usuario | null {
+  obtenerUsuarioActivo(): UsuarioDto | null {
     const usuarioActivo = this.getItem('usuarioActivo');
     return usuarioActivo ? JSON.parse(usuarioActivo) : null;
   }

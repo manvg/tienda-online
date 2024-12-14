@@ -5,7 +5,7 @@ import { MenuComponent } from '../menu/menu.component';
 import { FooterComponent } from '../footer/footer.component';
 import { CarritoComponent } from '../carrito/carrito.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { Producto } from '../../models/dto/producto.model';
+import { ProductoDto } from '../../models/dto/productoDto.model';
 import { ProductoService } from '../../services/producto/producto.service';
 
 @Component({
@@ -16,7 +16,7 @@ import { ProductoService } from '../../services/producto/producto.service';
   styleUrl: './kuchens.component.scss'
 })
 export class KuchensComponent implements OnInit {
-  productos: Producto[] = [];
+  productos: ProductoDto[] = [];
   titulo: string = 'Kuchens';
   carritoVisible: boolean = false;
 
@@ -31,8 +31,8 @@ export class KuchensComponent implements OnInit {
 
   obtenerProductos(): void {
     this.productoService.getProductos().subscribe({
-      next: (data: Producto[]) => {
-        this.productos = data.filter((producto: Producto) => producto.categoria === 'kuchen');
+      next: (data: ProductoDto[]) => {
+        this.productos = data.filter((producto: ProductoDto) => producto.categoria === 'kuchen');
       },
       error: (err) => {
         console.error('Error al obtener los productos:', err);
@@ -40,7 +40,7 @@ export class KuchensComponent implements OnInit {
     });
   }
 
-  agregarProducto(producto: Producto): void {
+  agregarProducto(producto: ProductoDto): void {
     this.carritoService.agregarProducto(producto);
   }
 

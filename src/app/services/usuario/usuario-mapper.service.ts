@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Usuario } from '../../models/dto/usuario.models';
-import { DecodedToken } from '../../services/autenticacion/auth.service';
+import { Usuario } from '../../models/entities/usuario.models';
+import { DecodedToken } from '../../models/dto/DecodedToken.models';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,13 @@ export class UsuarioMapperService {
       email: decodedToken.email,
       perfil: decodedToken.perfil,
       nombre: decodedToken.nombre,
-      apellidos: decodedToken.apellidos,
+      apellidoPaterno: decodedToken.apellidoPaterno,
+      apellidoMaterno: decodedToken.apellidoMaterno,
       direccion: decodedToken.direccion,
-      fechaNacimiento: decodedToken.fechaNacimiento,
+      fechaNacimiento: new Date(decodedToken.fechaNacimiento).toISOString().split('T')[0],
       telefono: decodedToken.telefono,
-      contrasena: ''
+      contrasena: '',
+      idUsuario: 0
     };
   }
 }
