@@ -11,7 +11,7 @@ import { DecodedToken } from '../../models/dto/DecodedToken.models';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8085/api/authentication/login';
+  private apiUrl = 'http://54.236.97.158:8085/api/authentication/login';//'http://localhost:8085/api/authentication/login';
   private tokenKey = 'token';
   private currentUserSubject: BehaviorSubject<DecodedToken | null>;
   public currentUser$: Observable<DecodedToken | null>;
