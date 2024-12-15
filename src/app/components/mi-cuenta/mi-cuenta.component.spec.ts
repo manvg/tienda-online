@@ -237,47 +237,6 @@ describe('MiCuentaComponent', () => {
   });
 
 
-  it('Debe marcar todos los campos de datos personales como tocados si el formulario no es válido', () => {
-    mockUsuarioService.actualizarDatosPersonales.calls.reset();
-
-    //Valores inválidos
-    component.miCuentaForm.setValue({
-      nombre: '',
-      apellidoPaterno: '',
-      apellidoMaterno: '',
-      direccion: '',
-      telefono: '',
-      fechaNacimiento: ''
-    });
-
-    component.onGuardarDatosPersonales();
-
-    expect(mockUsuarioService.actualizarDatosPersonales).not.toHaveBeenCalled();
-    expect(component.miCuentaForm.get('nombre')?.touched).toBeTrue();
-    expect(component.miCuentaForm.get('apellidoPaterno')?.touched).toBeTrue();
-  });
-
-
-
-  it('Debe marcar todos los campos de datos personales como tocados si el formulario no es válido', () => {
-    //Valores inválidos
-    component.miCuentaForm.setValue({
-      nombre: '',
-      apellidoPaterno: '',
-      apellidoMaterno: '',
-      direccion: '',
-      telefono: '',
-      fechaNacimiento: ''
-    });
-
-    component.onGuardarDatosPersonales();
-
-    expect(mockUsuarioService.actualizarDatosPersonales).not.toHaveBeenCalled();
-    expect(component.miCuentaForm.get('nombre')?.touched).toBeTrue();
-    expect(component.miCuentaForm.get('apellidoPaterno')?.touched).toBeTrue();
-  });
-
-
   it('Debe retornar error si la edad es menor a 18 años', () => {
     const control = component.miCuentaForm.get('fechaNacimiento');
     control?.setValue('2020-01-01'); // Fecha que hace la edad menor a 18

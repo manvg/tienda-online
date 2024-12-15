@@ -1,4 +1,4 @@
-// Karma configuration file, see link for more information
+// Karma configuration file
 // https://karma-runner.github.io/1.0/config/configuration-file.html
 
 module.exports = function (config) {
@@ -26,19 +26,20 @@ module.exports = function (config) {
       subdir: '.',
       includeAllSources: true, // Include all files even if they have no tests
       reporters: [
-        { type: 'html' },       // Generate HTML reports for coverage
-        { type: 'text-summary' } // Generate a text summary in the console
+        { type: 'html' },       // Generate HTML reports for detailed analysis
+        { type: 'lcovonly' },   // Generate lcov file for SonarQube
+        { type: 'text-summary' } // Display a summary in the console
       ],
       check: {
         global: {
-          statements: 80, // Target minimum 80% for statements
-          branches: 80,   // Target minimum 80% for branches
-          functions: 80,  // Target minimum 80% for functions
-          lines: 80       // Target minimum 80% for lines
+          statements: 80, // Minimum threshold for statements
+          branches: 80,   // Minimum threshold for branches
+          functions: 80,  // Minimum threshold for functions
+          lines: 80       // Minimum threshold for lines
         }
       }
     },
-    reporters: ['progress', 'kjhtml', 'coverage'], // Add 'coverage' for better integration
+    reporters: ['progress', 'kjhtml', 'coverage'], // Added 'coverage' for better integration
     browsers: ['Chrome'],
     restartOnFileChange: true
   });
