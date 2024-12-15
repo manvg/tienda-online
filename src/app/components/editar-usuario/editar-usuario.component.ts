@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
     MatSelectModule
   ],
   templateUrl: './editar-usuario.component.html',
-  styleUrls: ['./editar-usuario.component.scss']
+  styleUrl: './editar-usuario.component.scss'
 })
 export class EditarUsuarioComponent {
   form: FormGroup;

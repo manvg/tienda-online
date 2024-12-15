@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from '../footer/footer.component';
 import { MatIconModule } from '@angular/material/icon';
 import { CrearProductoComponent } from '../crear-producto/crear-producto.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-productos',
@@ -51,21 +52,35 @@ export class ProductosComponent implements OnInit {
   }
 
   eliminarProducto(idProducto: number): void {
-    this.productoService.eliminarProducto(idProducto).subscribe({
-      next: () => {
-        this.snackBar.open('Producto eliminado correctamente.', 'Cerrar', {
-          duration: 3000
-        });
-        this.obtenerProductos();
-      },
-      error: (err) => {
-        console.error('Error al eliminar el producto:', err);
-        this.snackBar.open('Error al eliminar el producto.', 'Cerrar', {
-          duration: 3000
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '500px',
+      height: '135px',
+      data: { message: '¿Estás seguro de que deseas eliminar este producto?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.productoService.eliminarProducto(idProducto).subscribe({
+          next: () => {
+            this.snackBar.open('Producto eliminado correctamente.', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
+            this.obtenerProductos();
+          },
+          error: (err) => {
+            this.snackBar.open('Error al eliminar el producto.', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
+            });
+          }
         });
       }
     });
   }
+
 
   editarProducto(producto: Producto): void {
     const dialogRef = this.dialog.open(EditarProductoComponent, {
@@ -78,20 +93,26 @@ export class ProductosComponent implements OnInit {
         this.productoService.actualizarProducto(result).subscribe({
           next: () => {
             this.snackBar.open('Producto actualizado correctamente.', 'Cerrar', {
-              duration: 3000
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
             });
             this.obtenerProductos();
           },
           error: (err) => {
             console.error('Error al actualizar el producto:', err);
             this.snackBar.open('Error al actualizar el producto.', 'Cerrar', {
-              duration: 3000
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
             });
           }
         });
       }
     });
   }
+
+
 
   crearProducto(): void {
     const dialogRef = this.dialog.open(CrearProductoComponent, {
@@ -103,14 +124,17 @@ export class ProductosComponent implements OnInit {
         this.productoService.crearProducto(result).subscribe({
           next: () => {
             this.snackBar.open('Producto creado correctamente.', 'Cerrar', {
-              duration: 3000
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
             });
             this.obtenerProductos();
           },
           error: (err) => {
-            console.error('Error al crear el producto:', err);
             this.snackBar.open('Error al crear el producto.', 'Cerrar', {
-              duration: 3000
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'right'
             });
           }
         });
