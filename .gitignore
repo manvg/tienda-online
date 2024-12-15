@@ -42,3 +42,13 @@ testem.log
 Thumbs.db
 .scannerwork/.sonar_lock
 .scannerwork/report-task.txt
+
+# Excluir carpetas generadas por SonarQube
+.sonar/
+.scannerwork/
+coverage/
+report-task.txt
+
+# Excluir cualquier archivo de configuración relacionado con SonarQube
+sonar-project.properties
+
