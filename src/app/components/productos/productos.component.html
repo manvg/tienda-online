@@ -1,0 +1,43 @@
+<app-menu (carritoClicked)="toggleCarrito()"></app-menu>
+
+<app-carrito *ngIf="carritoVisible" (closeCarrito)="closeCarrito()"></app-carrito>
+
+<div class="container mt-4">
+  <div class="row mt-4">
+    <div class="col-12">
+      <h2 class="mb-4 text-center">Lista de Productos</h2>
+      <div class="mb-3 text-end">
+        <button class="btn btn-success" (click)="crearProducto()">
+          <mat-icon>add</mat-icon> Crear Producto
+        </button>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>Precio</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos">
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.categoria }}</td>
+            <td>{{ producto.precio | currency:'CLP' }}</td>
+            <td class="action-buttons">
+              <button class="btn btn-danger" (click)="eliminarProducto(producto.idProducto)">
+                <mat-icon>delete</mat-icon>
+              </button>
+              <button class="btn btn-primary" (click)="editarProducto(producto)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

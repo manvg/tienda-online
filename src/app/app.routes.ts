@@ -9,6 +9,7 @@ import { LoginComponent } from './components/login/login.component';
 import { MiCuentaComponent } from './components/mi-cuenta/mi-cuenta.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { RecuperarContrasenaComponent } from './components/recuperar-contrasena/recuperar-contrasena.component';
+import { ProductosComponent } from './components/productos/productos.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/index', pathMatch: 'full' },
@@ -21,5 +22,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'mi-cuenta', component: MiCuentaComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'recuperar-contrasena', component: RecuperarContrasenaComponent }
+  { path: 'recuperar-contrasena', component: RecuperarContrasenaComponent },
+  { path: 'productos', component: ProductosComponent }
 ];

@@ -12,7 +12,7 @@ export class ProductoService {
 
   constructor(private http: HttpClient) {}
 
-  // Obtener todos los productos
+  //Obtener todos los productos en módulo
   getProductos(): Observable<ProductoDto[]> {
     return this.http.get<Producto[]>(`${this.apiUrl}`).pipe(
       map((productos: Producto[]) =>
@@ -36,17 +36,21 @@ export class ProductoService {
   }
 
   // Crear un nuevo producto
-  createProducto(producto: Producto): Observable<Producto> {
+  crearProducto(producto: Producto): Observable<Producto> {
     return this.http.post<Producto>(this.apiUrl, producto);
   }
 
   // Actualizar un producto existente
-  updateProducto(id: string, producto: Producto): Observable<Producto> {
-    return this.http.put<Producto>(`${this.apiUrl}/${id}`, producto);
+  actualizarProducto(producto: Producto): Observable<Producto> {
+    return this.http.put<Producto>(`${this.apiUrl}/${producto.idProducto}`, producto);
   }
 
   // Eliminar un producto
-  deleteProducto(id: string): Observable<void> {
+  eliminarProducto(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  listarProductosGestion(): Observable<Producto[]> {
+    return this.http.get<Producto[]>(`${this.apiUrl}`);
   }
 }

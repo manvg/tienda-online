@@ -1,0 +1,20 @@
+.edit-producto-dialog-content {
+  padding: 20px;
+}
+
+.edit-producto-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.edit-producto-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 16px;
+}
