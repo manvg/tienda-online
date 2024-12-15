@@ -3,10 +3,6 @@ import { BehaviorSubject } from 'rxjs';
 import { UsuarioDto } from '../../models/dto/usuarioDto.models';
 import { Router } from '@angular/router';
 
-/**
- * @description
- * Servicio para gestionar el almacenamiento local y la autenticación de usuarios.
- */
 @Injectable({
   providedIn: 'root'
 })
@@ -44,38 +40,7 @@ export class LocalStorageService {
   //#endregion
 
   //#region Usuarios
-  // crearUsuarioAdminPorDefecto(): void {
-  //   const usuarios: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
-  //   if (!usuarios) {
-  //     const usuarioAdmin: UsuarioDto = {
-  //       nombre: 'Manuel',
-  //       apellidoPaterno: 'Valdés',
-  //       apellidoMaterno: 'Valdés',
-  //       fechaNacimiento: new Date('1900-01-01'),
-  //       direccion: '',
-  //       telefono: "999999999",
-  //       email: 'admin@gmail.com',
-  //       //contrasena: '1234',
-  //       perfil: 'admin'
-  //     };
 
-  //     const usuarios: UsuarioDto[] = [usuarioAdmin];
-  //     this.setItem('usuarios', JSON.stringify(usuarios));
-  //     console.log('UsuarioDto administrador por defecto creado');
-  //   }
-  // }
-
-
-  // listarUsuarios(): void {
-  //   const usuariosGuardados: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
-  //   if (!usuariosGuardados) {
-  //     this.crearUsuarioAdminPorDefecto();
-  //   } else {
-  //     usuariosGuardados.forEach(element => {
-  //       console.log('local-storage.service.ts => listarUsuarios() => ' + element.email + ' | ' + element.contrasena);
-  //     });
-  //   }
-  // }
   obtenerUsuarios(): UsuarioDto[] {
     const listaUsuarios = this.getItem('usuarios');
     if (listaUsuarios) {
@@ -111,14 +76,12 @@ export class LocalStorageService {
     this.setItem('sesionActiva', 'true');
     this.setItem('usuarioActivo', JSON.stringify(usuario));
     this.usuarioActualSubject.next(usuario);
-    console.log("local-storage.service.ts => FIN => iniciarSesion " + usuario.email);
   }
 
   cerrarSesion() {
     this.removeItem('sesionActiva');
     this.removeItem('usuarioActivo');
     this.usuarioActualSubject.next(null);
-    console.log("local-storage.service.ts => FIN => cerrarSesion");
     this.router.navigate(['/login']);
   }
 

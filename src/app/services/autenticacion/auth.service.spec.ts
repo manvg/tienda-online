@@ -44,11 +44,11 @@ describe('AuthService', () => {
   });
 
   afterEach(() => {
-    httpMock.verify(); // Verifica que no haya solicitudes pendientes
-    localStorage.clear(); // Limpia el localStorage después de cada prueba
+    httpMock.verify();
+    localStorage.clear();
   });
 
-  // Prueba: Login exitoso
+  //Login exitoso
   it('debe realizar el login y almacenar el token', () => {
     spyOn(localStorage, 'setItem');
     spyOn<any>(service, 'decodeToken').and.returnValue(decodedToken);
@@ -66,7 +66,7 @@ describe('AuthService', () => {
     expect(service.usuarioActual).toEqual(decodedToken);
   });
 
-  // Prueba: Logout
+  //Logout
   it('debe realizar el logout correctamente', () => {
     spyOn(localStorage, 'removeItem');
     service.logout();
@@ -75,7 +75,7 @@ describe('AuthService', () => {
     expect(routerSpy.navigate).toHaveBeenCalledWith(['/login']);
   });
 
-  // Prueba: isAuthenticated retorna true si el token es válido
+  //isAuthenticated retorna true si el token es válido
   it('isAuthenticated debe retornar true si el token no ha expirado', () => {
     spyOn(localStorage, 'getItem').and.returnValue(mockToken);
     spyOn<any>(service, 'decodeToken').and.returnValue(decodedToken);
@@ -84,7 +84,7 @@ describe('AuthService', () => {
     expect(result).toBeTrue();
   });
 
-  // Prueba: isAuthenticated retorna false si el token está expirado
+  //isAuthenticated retorna false si el token está expirado
   it('isAuthenticated debe retornar false si el token ha expirado', () => {
     const expiredToken = { ...decodedToken, exp: Math.floor(Date.now() / 1000) - 1000 }; // Token expirado
     spyOn(localStorage, 'getItem').and.returnValue(mockToken);
@@ -96,14 +96,14 @@ describe('AuthService', () => {
     expect(service.logout).toHaveBeenCalled();
   });
 
-  // Prueba: getToken retorna el token almacenado en localStorage
+  //getToken retorna el token almacenado en localStorage
   it('getToken debe retornar el token almacenado en localStorage', () => {
     spyOn(localStorage, 'getItem').and.returnValue(mockToken);
     const token = service.getToken();
     expect(token).toBe(mockToken);
   });
 
-  // Prueba: Manejo de errores al decodificar token
+  //Manejo de errores al decodificar token
   it('debe manejar errores al decodificar el token', () => {
     spyOn(localStorage, 'getItem').and.returnValue(mockToken);
     spyOn<any>(service, 'decodeToken').and.throwError('Error al decodificar el token');

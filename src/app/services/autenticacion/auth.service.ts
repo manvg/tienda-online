@@ -31,8 +31,6 @@ export class AuthService {
           localStorage.setItem(this.tokenKey, response.token);
           const decodedToken = this.decodeToken(response.token);
           this.currentUserSubject.next(decodedToken);
-        } else {
-          console.error(response.message);
         }
       })
     );
@@ -68,7 +66,6 @@ export class AuthService {
       const decoded = jwtDecode<DecodedToken>(token);
       return decoded;
     } catch (error) {
-      console.error('Error al decodificar el token:', error);
       return null;
     }
   }
