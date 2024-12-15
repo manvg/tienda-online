@@ -39,25 +39,14 @@ export class RecuperarContrasenaComponent implements OnInit {
     this.enviado = true;
     if (this.formRecuperar.valid) {
       const email = this.formRecuperar.get('email')?.value;
-      const usuarios = this.localStorageService.obtenerUsuarios();
-      const usuario = usuarios.find(user => user.email === email);
-
-      if (usuario) {
-        this.snackBar.open('Correo de recuperación enviado.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 3500);
-      } else {
-        this.snackBar.open('Correo no registrado.', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'right'
-        });
-      }
+      this.snackBar.open('Correo de recuperación enviado.', 'Cerrar', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'right'
+      });
+      setTimeout(() => {
+        this.router.navigate(['/login']);
+      }, 3500);
     }
   }
 
