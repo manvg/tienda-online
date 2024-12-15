@@ -100,16 +100,29 @@ export class MiCuentaComponent implements OnInit {
 
   async onGuardarNuevaContrasena(): Promise<void> {
     this.enviadoCambiarContrasena = true;
-    if (this.cambiarContrasenaForm.valid && this.usuarioActivo) {
+
+    if (this.cambiarContrasenaForm.valid) {
       const nuevaContrasena = this.cambiarContrasenaForm.get('nuevaContrasena')!.value;
 
-      this.snackBar.open('Éxito | Contraseña actualizada correctamente.', 'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right'
+      this.usuarioService.cambiarContrasena(nuevaContrasena).subscribe({
+        next: () => {
+          this.snackBar.open('Éxito | Contraseña actualizada correctamente.', 'Cerrar', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right'
+          });
+          this.enviadoCambiarContrasena = false;
+          this.cambiarContrasenaForm.reset();
+        },
+        error: (err) => {
+          console.error('Error al cambiar la contraseña:', err);
+          this.snackBar.open('Error | La contraseña no pudo ser actualizada.', 'Cerrar', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right'
+          });
+        }
       });
-      this.enviadoCambiarContrasena = false;
-      this.cambiarContrasenaForm.reset();
     } else {
       this.cambiarContrasenaForm.markAllAsTouched();
     }
@@ -129,13 +142,11 @@ export class MiCuentaComponent implements OnInit {
               apellidoMaterno: usuario.apellidoMaterno,
               direccion: usuario.direccion,
               telefono: usuario.telefono,
-              fechaNacimiento: usuario.fechaNacimiento, // Conversión de string a Date
+              fechaNacimiento: usuario.fechaNacimiento,
               perfil: usuario.perfil ? { idPerfil: usuario.perfil.idPerfil, nombre: usuario.perfil.nombre }: null,
               email: usuario.email
             };
 
-
-            // Actualizar el formulario con los datos del UsuarioDto
             this.miCuentaForm.patchValue({
               nombre: this.usuarioActivo.nombre,
               apellidoPaterno: this.usuarioActivo.apellidoPaterno,
@@ -161,27 +172,6 @@ export class MiCuentaComponent implements OnInit {
       this.router.navigate(['/index']);
     }
   }
-
-
-
-  // obtenerDatosUsuario(): void {
-  //   const decodedToken = this.authService.usuarioActual;
-  //   this.usuarioActivo = decodedToken ? this.usuarioMapperService.mapDecodedTokenToUsuario(decodedToken) : null;
-
-  //   if (this.usuarioActivo) {
-  //     this.miCuentaForm.patchValue({
-  //       nombre: this.usuarioActivo.nombre,
-  //       apellidoPaterno: this.usuarioActivo.apellidoPaterno,
-  //       apellidoMaterno: this.usuarioActivo.apellidoMaterno,
-  //       direccion: this.usuarioActivo.direccion,
-  //       telefono: this.usuarioActivo.telefono,
-  //       fechaNacimiento: this.usuarioActivo.fechaNacimiento
-  //     });
-  //   } else {
-  //     this.authService.logout();
-  //     this.router.navigate(['/index']);
-  //   }
-  // }
 
   toggleFormulario(formulario: string): void {
     const formularioDatosPersonales = document.getElementById('formulario-datos-personales');

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Usuario } from '../../models/entities/usuario.models';
 import { UsuarioDto } from '../../models/dto/usuarioDto.models';
@@ -38,4 +38,16 @@ export class UsuarioService {
   eliminarUsuario(email: string): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${email}`);
   }
+
+  cambiarContrasena(nuevaContrasena: string): Observable<any> {
+    const token = localStorage.getItem('token');
+
+    let headers = new HttpHeaders();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    return this.http.put(`${this.apiUrl}/cambiar-contrasena`, { nuevaContrasena }, { headers });
+  }
+
 }
