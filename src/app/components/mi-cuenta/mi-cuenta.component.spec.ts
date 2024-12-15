@@ -9,6 +9,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { AuthService } from '../../services/autenticacion/auth.service';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 // Stub para componentes secundarios
 @Component({ selector: 'app-menu', template: '' })
@@ -244,5 +245,84 @@ describe('MiCuentaComponent', () => {
     const edadError = component.validarEdad(18)(control!);
     expect(edadError).toEqual({ menorEdad: 'Debes ser mayor de 18 años.' });
   });
+
+  it('Debe mostrar un error si los datos personales no se pudieron actualizar', () => {
+    spyOn(mockSnackBar, 'open');
+    mockUsuarioService.actualizarDatosPersonales.and.returnValue(throwError(() => ({ error: 'Error en el servidor' })));
+
+    component.onGuardarDatosPersonales();
+
+    expect(mockSnackBar.open).toHaveBeenCalledWith(
+      'Error | No se pudieron actualizar los datos personales.',
+      'Cerrar',
+      jasmine.any(Object)
+    );
+  });
+
+  it('Debe retornar null si la fecha de nacimiento es nula o vacía en validarEdad', () => {
+    const control = component.miCuentaForm.get('fechaNacimiento');
+    control?.setValue(null);
+
+    const edadError = component.validarEdad(18)(control!);
+    expect(edadError).toBeNull();
+  });
+
+  it('Debe ignorar si el formulario no coincide en toggleFormulario', () => {
+    spyOn(console, 'warn'); // Si hay algún console.warn o similar
+    component.toggleFormulario('formulario-inexistente');
+
+    // No debería lanzar error ni modificar nada
+    expect(console.warn).not.toHaveBeenCalled();
+  });
+
+  it('Debe retornar null si la contraseña es nula o vacía', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: '' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toBeNull();
+  });
+
+  it('Debe retornar un error si la contraseña tiene menos de 6 caracteres', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: 'Ab1' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toEqual({ length: 'Largo entre 6 y 18 caracteres' });
+  });
+
+  it('Debe retornar un error si la contraseña tiene más de 18 caracteres', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: 'Abcdefghijklmnopqr1' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toEqual({ length: 'Largo entre 6 y 18 caracteres' });
+  });
+
+  it('Debe retornar un error si la contraseña no contiene una letra mayúscula', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: 'abcdef123' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toEqual({ uppercase: 'Debe contener al menos una letra mayúscula' });
+  });
+
+  it('Debe retornar un error si la contraseña no contiene al menos un número', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: 'Abcdefghi' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toEqual({ number: 'Debe contener al menos un número' });
+  });
+
+  it('Debe retornar null si la contraseña cumple todas las reglas', () => {
+    const validatorFn = component.validarContrasena();
+    const control = { value: 'Abc123' } as AbstractControl;
+
+    const result = validatorFn(control);
+    expect(result).toBeNull();
+  });
+
+
 
 });
