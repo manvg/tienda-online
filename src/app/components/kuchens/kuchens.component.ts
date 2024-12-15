@@ -35,7 +35,7 @@ export class KuchensComponent implements OnInit {
         this.productos = data.filter((producto: ProductoDto) => producto.categoria === 'kuchen');
       },
       error: (err) => {
-        console.error('Error al obtener los productos:', err);
+
       }
     });
   }

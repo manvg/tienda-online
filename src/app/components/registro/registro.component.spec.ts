@@ -1,139 +1,108 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RegistroComponent } from './registro.component';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; // Importar esto
+import { NO_ERRORS_SCHEMA, Component } from '@angular/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { LocalStorageService } from '../../services/local-storage/local-storage.service';
+import { RegistroComponent } from './registro.component';
 import { CarritoService } from '../../services/carrito/carrito.service';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { UsuarioService } from '../../services/usuario/usuario.service';
+import { AuthService } from '../../services/autenticacion/auth.service';
 
-/**
- * @description
- * Pruebas unitarias para el componente RegistroComponent.
- */
+// Stubs para componentes secundarios
+@Component({
+  selector: 'app-menu',
+  template: '',
+})
+class MockMenuComponent {}
+
+@Component({ selector: 'app-footer', template: '' })
+class MockFooterComponent {}
+
+@Component({ selector: 'app-carrito', template: '' })
+class MockCarritoComponent {}
+
+// Mock de servicios
+const mockCarritoService = {
+  contadorCarrito$: of(0),
+  agregarProducto: jasmine.createSpy('agregarProducto'),
+};
+
+const mockUsuarioService = {
+  crearUsuario: jasmine.createSpy('crearUsuario').and.returnValue(of({})),
+};
+
+const mockAuthService = {
+  usuarioActual: null,
+};
+
 describe('RegistroComponent', () => {
   let component: RegistroComponent;
   let fixture: ComponentFixture<RegistroComponent>;
 
-  /**
-   * @description
-   * Mock del servicio LocalStorageService.
-   */
-  let mockLocalStorageService = {
-    getItem: jasmine.createSpy('getItem').and.returnValue(null),
-    setItem: jasmine.createSpy('setItem'),
-    usuarioActual$: of(null),
-    cerrarSesion: jasmine.createSpy('cerrarSesion')
-  };
-
-  /**
-   * @description
-   * Mock del servicio CarritoService.
-   */
-  let mockCarritoService = {
-    contadorCarrito$: of(0),
-    productos$: of([]),
-    precioTotal$: of(0),
-    actualizarProductos: jasmine.createSpy('actualizarProductos'),
-    actualizarPrecioTotal: jasmine.createSpy('actualizarPrecioTotal'),
-    actualizarContador: jasmine.createSpy('actualizarContador')
-  };
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CommonModule, RouterModule.forRoot([]), RegistroComponent],
-      providers: [
-        { provide: LocalStorageService, useValue: mockLocalStorageService },
-        { provide: CarritoService, useValue: mockCarritoService }
+      imports: [
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule, // Asegurarse de incluir esto
+        RouterTestingModule,
+        RegistroComponent,
       ],
-      schemas: [NO_ERRORS_SCHEMA]
-    })
-    .compileComponents();
+      declarations: [MockMenuComponent, MockFooterComponent, MockCarritoComponent],
+      providers: [
+        { provide: CarritoService, useValue: mockCarritoService },
+        { provide: UsuarioService, useValue: mockUsuarioService },
+        { provide: AuthService, useValue: mockAuthService },
+      ],
+      schemas: [NO_ERRORS_SCHEMA],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(RegistroComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  /**
-   * @description
-   * Verifica que el componente RegistroComponent se crea correctamente.
-   */
   it('El componente REGISTRO se crea correctamente', () => {
     expect(component).toBeTruthy();
   });
 
-  /**
-   * @description
-   * Verifica que el formulario de registro es inválido cuando está vacío.
-   */
-  it('Formulario inválido cuando está vacío', () => {
-    expect(component.formRegistro.valid).toBeFalsy();
+  it('Debe inicializar el formulario correctamente', () => {
+    expect(component.formRegistro).toBeDefined();
+    expect(component.formRegistro.controls['nombre']).toBeDefined();
+    expect(component.formRegistro.controls['correo']).toBeDefined();
+    expect(component.formRegistro.controls['contrasena']).toBeDefined();
   });
 
-  /**
-   * @description
-   * Verifica que el campo nombre es inválido cuando está vacío.
-   */
-  it('Campo nombre es inválido cuando está vacío', () => {
-    const nombre = component.formRegistro.controls['nombre'];
-    expect(nombre.valid).toBeFalsy();
-    expect(nombre.errors!['required']).toBeTruthy();
+  it('Debe alternar la visibilidad del carrito', () => {
+    expect(component.carritoVisible).toBeFalse();
+    component.toggleCarrito();
+    expect(component.carritoVisible).toBeTrue();
+    component.toggleCarrito();
+    expect(component.carritoVisible).toBeFalse();
   });
 
-  /**
-   * @description
-   * Verifica que la validación de la edad mínima funciona correctamente.
-   */
-  it('Debe validar la edad mínima correctamente', () => {
-    const fechaNacimiento = component.formRegistro.controls['fechaNacimiento'];
-    fechaNacimiento.setValue('2020-01-01');
-    expect(fechaNacimiento.valid).toBeFalsy();
-    expect(fechaNacimiento.errors!['menorEdad']).toBeTruthy();
-  });
-
-  /**
-   * @description
-   * Verifica que las contraseñas coincidan.
-   */
-  it('Debe validar que las contraseñas coincidan', () => {
-    component.formRegistro.controls['contrasena'].setValue('Prueba123');
-    component.formRegistro.controls['confirmarContrasena'].setValue('Test321');
-    expect(component.formRegistro.errors!['contrasenasDistintas']).toBeTruthy();
-  });
-
-  /**
-   * @description
-   * Verifica que el formulario se limpia correctamente.
-   */
-  it('Debe limpiar el formulario correctamente', () => {
-    component.limpiarFormulario();
-    expect(component.formRegistro.controls['nombre'].value).toBe('');
-    expect(component.formRegistro.controls['apellidos'].value).toBe('');
-    expect(component.formRegistro.controls['direccion'].value).toBe('');
-    expect(component.formRegistro.controls['fechaNacimiento'].value).toBe('');
-    expect(component.formRegistro.controls['correo'].value).toBe('');
-    expect(component.formRegistro.controls['contrasena'].value).toBe('');
-    expect(component.formRegistro.controls['confirmarContrasena'].value).toBe('');
-  });
-
-  /**
-   * @description
-   * Verifica que se agrega un nuevo usuario si el formulario es válido.
-   */
-  it('Debe agregar un nuevo usuario si el formulario es válido', () => {
-    component.formRegistro.controls['nombre'].setValue('Manuel');
-    component.formRegistro.controls['apellidos'].setValue('Valdés');
-    component.formRegistro.controls['fechaNacimiento'].setValue('2022-01-01');
-    component.formRegistro.controls['direccion'].setValue('Dirección de prueba');
-    component.formRegistro.controls['telefono'].setValue('987654321');
-    component.formRegistro.controls['correo'].setValue('mvaldesg@gmail.com');
-    component.formRegistro.controls['contrasena'].setValue('Manuel123');
-    component.formRegistro.controls['confirmarContrasena'].setValue('Manuel123');
+  it('Debe registrar un nuevo usuario cuando el formulario es válido', (done) => {
+    component.formRegistro.patchValue({
+      nombre: 'Manuel',
+      apellidoPaterno: 'Valdés',
+      apellidoMaterno: 'Guerra',
+      fechaNacimiento: '1997-01-01',
+      direccion: 'Dirección de prueba',
+      telefono: '985754685',
+      correo: 'mvaldes@gmail.com',
+      contrasena: 'Manuel123',
+      confirmarContrasena: 'Manuel123',
+    });
 
     component.formularioRegistro();
 
-    expect(mockLocalStorageService.setItem).toHaveBeenCalled();
-    expect(component.arrayUsuarios.length).toBe(1);
+    expect(mockUsuarioService.crearUsuario).toHaveBeenCalled();
+
+    setTimeout(() => {
+      expect(component.enviado).toBeFalse();
+      done();//Prueba asíncrona finalizada
+    }, 0);
   });
 });

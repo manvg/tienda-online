@@ -35,7 +35,7 @@ export class CheesecakesComponent implements OnInit {
         this.productos = data.filter((producto: ProductoDto) => producto.categoria === 'cheesecake');
       },
       error: (err) => {
-        console.error('Error al obtener los productos:', err);
+
       }
     });
   }

@@ -84,7 +84,6 @@ export class MiCuentaComponent implements OnInit {
           this.obtenerDatosUsuario();
         },
         error: (err) => {
-          console.error('Error al actualizar los datos personales:', err);
           this.snackBar.open('Error | No se pudieron actualizar los datos personales.', 'Cerrar', {
             duration: 3000,
             verticalPosition: 'top',
@@ -115,7 +114,6 @@ export class MiCuentaComponent implements OnInit {
           this.cambiarContrasenaForm.reset();
         },
         error: (err) => {
-          console.error('Error al cambiar la contraseña:', err);
           this.snackBar.open('Error | La contraseña no pudo ser actualizada.', 'Cerrar', {
             duration: 3000,
             verticalPosition: 'top',
@@ -156,13 +154,11 @@ export class MiCuentaComponent implements OnInit {
               fechaNacimiento: this.usuarioActivo.fechaNacimiento
             });
           } else {
-            console.error('No se encontró el usuario con el email proporcionado.');
             this.authService.logout();
             this.router.navigate(['/index']);
           }
         },
         error: (err) => {
-          console.error('Error al obtener los datos del usuario:', err);
           this.authService.logout();
           this.router.navigate(['/index']);
         }

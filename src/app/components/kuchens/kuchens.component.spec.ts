@@ -99,4 +99,18 @@ describe('KuchensComponent', () => {
     expect(component.productos[0].titulo).toBe('Kuchen de Manzana');
     expect(component.productos[1].titulo).toBe('Kuchen de Frambuesa');
   });
+
+  it('Debe cerrar el carrito correctamente', () => {
+    component.carritoVisible = true;
+    component.closeCarrito();
+    expect(component.carritoVisible).toBeFalsy();
+  });
+
+  it('Debe alternar la visibilidad del carrito', () => {
+    expect(component.carritoVisible).toBeFalsy();
+    component.toggleCarrito();
+    expect(component.carritoVisible).toBeTruthy();
+    component.toggleCarrito();
+    expect(component.carritoVisible).toBeFalsy();
+  });
 });
