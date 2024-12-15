@@ -75,7 +75,7 @@
               <small class="mensaje-validacion" *ngIf="miCuentaForm.get('telefono')?.errors?.['soloNumeros']">{{miCuentaForm.get('telefono')?.errors?.['soloNumeros']}}</small>
             </div>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             <label class="form-label">Dirección de despacho</label>
             <input type="text" class="form-control" id="direccion" maxlength="150" formControlName="direccion">
             <div *ngIf="enviadoDatosPersonales && miCuentaForm.get('direccion')?.invalid">

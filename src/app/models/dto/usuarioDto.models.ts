@@ -1,11 +1,11 @@
 export interface UsuarioDto {
+  idUsuario: number | null;
+  email: string | null;
   nombre: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
   direccion: string;
-  fechaNacimiento: Date,
   telefono: string;
-  email: string;
-  contrasena: string;
-  perfil: string;
+  fechaNacimiento: string;
+  perfil: { idPerfil: number; nombre: string } | null;
 }

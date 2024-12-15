@@ -15,27 +15,19 @@ import { EditarUsuarioComponent } from '../editar-usuario/editar-usuario.compone
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { UsuarioDto } from '../../models/dto/usuarioDto.models';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterModule,
-    MenuComponent,
-    FooterComponent,
-    CarritoComponent,
-    MatIconModule,
-    MatSelectModule, // Importar MatSelectModule
-    MatOptionModule  // Importar MatOptionModule
-  ],
+  imports: [CommonModule,RouterModule,MenuComponent,FooterComponent,CarritoComponent,MatIconModule,MatSelectModule,MatOptionModule],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
   carritoVisible: boolean = false;
   usuarios: Usuario[] = [];
-  usuarioActual: Usuario | null = null;
+  usuarioActual: UsuarioDto | null = null;
   perfiles: Perfil[] = [
     { idPerfil: 1, nombre: 'Administrador' },
     { idPerfil: 2, nombre: 'Cliente' }

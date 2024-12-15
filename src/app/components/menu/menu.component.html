@@ -32,7 +32,7 @@
             <li class="inicio-sesion" *ngIf="!usuarioActual"><a class="dropdown-item" routerLink="/login">Iniciar sesión</a></li>
             <li class="registro-usuario" *ngIf="!usuarioActual"><a class="dropdown-item" routerLink="/registro">Registrarse</a></li>
             <li class="mi-cuenta" *ngIf="usuarioActual"><a class="dropdown-item" routerLink="/mi-cuenta">Mi cuenta</a></li>
-            <li class="dashboard" *ngIf="usuarioActual?.perfil?.nombre == 'Administrador'"><a class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
+            <li class="dashboard" *ngIf="usuarioActual?.perfil?.nombre"><a class="dropdown-item" routerLink="/dashboard">Dashboard</a></li>
             <li class="cerrar-sesion" *ngIf="usuarioActual"><a class="dropdown-item" id="btnCerrarSesion" (click)="cerrarSesion()">Cerrar sesión</a></li>
           </ul>
         </li>

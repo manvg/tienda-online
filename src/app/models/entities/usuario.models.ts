@@ -1,5 +1,5 @@
 export class Usuario {
-  idUsuario!: number;
+  idUsuario: number | null;
   nombre!: string;
   apellidoPaterno!: string;
   apellidoMaterno!: string;
@@ -11,7 +11,7 @@ export class Usuario {
   perfil!: Perfil;
 
   constructor(
-      idUsuario: number,
+      idUsuario: number | null,
       nombre: string,
       apellidoPaterno: string,
       apellidoMaterno: string,

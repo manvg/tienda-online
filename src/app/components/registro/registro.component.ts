@@ -42,7 +42,8 @@ export class RegistroComponent implements OnInit {
   ngOnInit(): void {
     this.formRegistro = this.fb.group({
       nombre: ['', [Validators.required, this.soloLetrasValidator()]],
-      apellidos: ['', [Validators.required, this.soloLetrasValidator()]],
+      apellidoPaterno: ['', [Validators.required, this.soloLetrasValidator()]],
+      apellidoMaterno: ['', [Validators.required, this.soloLetrasValidator()]],
       fechaNacimiento: ['', [Validators.required, this.validarEdad(18)]],
       direccion: ['', [this.alphanumericoValidator()]],
       telefono: ['', [Validators.required, this.soloNumerosValidator(), Validators.minLength(9), Validators.maxLength(9)]],
@@ -64,7 +65,7 @@ export class RegistroComponent implements OnInit {
         telefono: this.formRegistro.get('telefono')!.value,
         email: this.formRegistro.get('correo')!.value,
         contrasena: this.formRegistro.get('contrasena')!.value,
-        perfil: { idPerfil: 0, nombre: 'Cliente' },
+        perfil: { idPerfil: 2, nombre: 'Cliente' },
         idUsuario: 0
       };
 
@@ -75,7 +76,7 @@ export class RegistroComponent implements OnInit {
             verticalPosition: 'top',
             horizontalPosition: 'right'
           });
-          this.limpiarFormulario(); // Usar el método recién agregado
+          this.limpiarFormulario();
           this.enviado = false;
           this.router.navigate(['/login']);
         },
@@ -92,8 +93,8 @@ export class RegistroComponent implements OnInit {
   }
 
   limpiarFormulario(): void {
-    this.formRegistro.reset(); // Reinicia el formulario
-    this.enviado = false; // Restablece la bandera de envío
+    this.formRegistro.reset();
+    this.enviado = false;
   }
 
   //#region Validaciones

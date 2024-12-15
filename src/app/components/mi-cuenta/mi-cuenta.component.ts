@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UsuarioService } from '../../services/usuario/usuario.service';
 import { UsuarioMapperService } from '../../services/usuario/usuario-mapper.service';
 import { AuthService } from '../../services/autenticacion/auth.service';
+import { UsuarioDto } from '../../models/dto/usuarioDto.models';
 
 @Component({
   selector: 'app-mi-cuenta',
@@ -25,7 +26,7 @@ export class MiCuentaComponent implements OnInit {
   enviadoDatosPersonales = false;
   enviadoCambiarContrasena = false;
   carritoVisible: boolean = false;
-  usuarioActivo: Usuario | null = null;
+  usuarioActivo: UsuarioDto | null = null;
   constructor(private fb: FormBuilder, private usuarioService: UsuarioService, private authService: AuthService, private router: Router, private snackBar: MatSnackBar, private usuarioMapperService: UsuarioMapperService) { }
 
   ngOnInit(): void {
@@ -41,7 +42,6 @@ export class MiCuentaComponent implements OnInit {
     this.cambiarContrasenaForm = this.fb.group({
       contrasenaActual: ['', {
         validators: [Validators.required],
-        // asyncValidators: [this.validarContrasenaActual()],
         updateOn: 'blur'
       }],
       nuevaContrasena: ['', {
@@ -65,20 +65,34 @@ export class MiCuentaComponent implements OnInit {
 
   async onGuardarDatosPersonales(): Promise<void> {
     this.enviadoDatosPersonales = true;
+
     if (this.miCuentaForm.valid && this.usuarioActivo) {
-      const usuarioActualizado: Usuario = {
+      const usuarioActualizado: UsuarioDto = {
         ...this.usuarioActivo,
         ...this.miCuentaForm.value
       };
 
-      this.usuarioActivo = usuarioActualizado;
-
-      this.snackBar.open('Éxito | Datos actualizados correctamente.', 'Cerrar', {
-        duration: 3000,
-        verticalPosition: 'top',
-        horizontalPosition: 'right'
+      this.usuarioService.actualizarDatosPersonales(usuarioActualizado).subscribe({
+        next: () => {
+          this.snackBar.open('Éxito | Datos personales actualizados correctamente.', 'Cerrar', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right'
+          });
+          this.usuarioActivo = usuarioActualizado;
+          this.enviadoDatosPersonales = false;
+          this.obtenerDatosUsuario();
+        },
+        error: (err) => {
+          console.error('Error al actualizar los datos personales:', err);
+          this.snackBar.open('Error | No se pudieron actualizar los datos personales.', 'Cerrar', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'right'
+          });
+        }
       });
-      this.enviadoDatosPersonales = false;
+
     } else {
       this.miCuentaForm.markAllAsTouched();
     }
@@ -88,8 +102,6 @@ export class MiCuentaComponent implements OnInit {
     this.enviadoCambiarContrasena = true;
     if (this.cambiarContrasenaForm.valid && this.usuarioActivo) {
       const nuevaContrasena = this.cambiarContrasenaForm.get('nuevaContrasena')!.value;
-
-      this.usuarioActivo.contrasena = nuevaContrasena;
 
       this.snackBar.open('Éxito | Contraseña actualizada correctamente.', 'Cerrar', {
         duration: 3000,
@@ -103,25 +115,73 @@ export class MiCuentaComponent implements OnInit {
     }
   }
 
-
   obtenerDatosUsuario(): void {
     const decodedToken = this.authService.usuarioActual;
-    this.usuarioActivo = decodedToken ? this.usuarioMapperService.mapDecodedTokenToUsuario(decodedToken) : null;
 
-    if (this.usuarioActivo) {
-      this.miCuentaForm.patchValue({
-        nombre: this.usuarioActivo.nombre,
-        apellidoPaterno: this.usuarioActivo.apellidoPaterno,
-        apellidoMaterno: this.usuarioActivo.apellidoMaterno,
-        direccion: this.usuarioActivo.direccion,
-        telefono: this.usuarioActivo.telefono,
-        fechaNacimiento: this.usuarioActivo.fechaNacimiento
+    if (decodedToken) {
+      this.usuarioService.obtenerUsuarioPorId(decodedToken.id).subscribe({
+        next: (usuario) => {
+          if (usuario) {
+            this.usuarioActivo = {
+              idUsuario: usuario.idUsuario,
+              nombre: usuario.nombre,
+              apellidoPaterno: usuario.apellidoPaterno,
+              apellidoMaterno: usuario.apellidoMaterno,
+              direccion: usuario.direccion,
+              telefono: usuario.telefono,
+              fechaNacimiento: usuario.fechaNacimiento, // Conversión de string a Date
+              perfil: usuario.perfil ? { idPerfil: usuario.perfil.idPerfil, nombre: usuario.perfil.nombre }: null,
+              email: usuario.email
+            };
+
+
+            // Actualizar el formulario con los datos del UsuarioDto
+            this.miCuentaForm.patchValue({
+              nombre: this.usuarioActivo.nombre,
+              apellidoPaterno: this.usuarioActivo.apellidoPaterno,
+              apellidoMaterno: this.usuarioActivo.apellidoMaterno,
+              direccion: this.usuarioActivo.direccion,
+              telefono: this.usuarioActivo.telefono,
+              fechaNacimiento: this.usuarioActivo.fechaNacimiento
+            });
+          } else {
+            console.error('No se encontró el usuario con el email proporcionado.');
+            this.authService.logout();
+            this.router.navigate(['/index']);
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener los datos del usuario:', err);
+          this.authService.logout();
+          this.router.navigate(['/index']);
+        }
       });
     } else {
       this.authService.logout();
       this.router.navigate(['/index']);
     }
   }
+
+
+
+  // obtenerDatosUsuario(): void {
+  //   const decodedToken = this.authService.usuarioActual;
+  //   this.usuarioActivo = decodedToken ? this.usuarioMapperService.mapDecodedTokenToUsuario(decodedToken) : null;
+
+  //   if (this.usuarioActivo) {
+  //     this.miCuentaForm.patchValue({
+  //       nombre: this.usuarioActivo.nombre,
+  //       apellidoPaterno: this.usuarioActivo.apellidoPaterno,
+  //       apellidoMaterno: this.usuarioActivo.apellidoMaterno,
+  //       direccion: this.usuarioActivo.direccion,
+  //       telefono: this.usuarioActivo.telefono,
+  //       fechaNacimiento: this.usuarioActivo.fechaNacimiento
+  //     });
+  //   } else {
+  //     this.authService.logout();
+  //     this.router.navigate(['/index']);
+  //   }
+  // }
 
   toggleFormulario(formulario: string): void {
     const formularioDatosPersonales = document.getElementById('formulario-datos-personales');

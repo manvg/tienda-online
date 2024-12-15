@@ -44,38 +44,38 @@ export class LocalStorageService {
   //#endregion
 
   //#region Usuarios
-  crearUsuarioAdminPorDefecto(): void {
-    const usuarios: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
-    if (!usuarios) {
-      const usuarioAdmin: UsuarioDto = {
-        nombre: 'Manuel',
-        apellidoPaterno: 'Valdés',
-        apellidoMaterno: 'Valdés',
-        fechaNacimiento: new Date('1900-01-01'),
-        direccion: '',
-        telefono: "999999999",
-        email: 'admin@gmail.com',
-        contrasena: '1234',
-        perfil: 'admin'
-      };
+  // crearUsuarioAdminPorDefecto(): void {
+  //   const usuarios: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
+  //   if (!usuarios) {
+  //     const usuarioAdmin: UsuarioDto = {
+  //       nombre: 'Manuel',
+  //       apellidoPaterno: 'Valdés',
+  //       apellidoMaterno: 'Valdés',
+  //       fechaNacimiento: new Date('1900-01-01'),
+  //       direccion: '',
+  //       telefono: "999999999",
+  //       email: 'admin@gmail.com',
+  //       //contrasena: '1234',
+  //       perfil: 'admin'
+  //     };
 
-      const usuarios: UsuarioDto[] = [usuarioAdmin];
-      this.setItem('usuarios', JSON.stringify(usuarios));
-      console.log('UsuarioDto administrador por defecto creado');
-    }
-  }
+  //     const usuarios: UsuarioDto[] = [usuarioAdmin];
+  //     this.setItem('usuarios', JSON.stringify(usuarios));
+  //     console.log('UsuarioDto administrador por defecto creado');
+  //   }
+  // }
 
 
-  listarUsuarios(): void {
-    const usuariosGuardados: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
-    if (!usuariosGuardados) {
-      this.crearUsuarioAdminPorDefecto();
-    } else {
-      usuariosGuardados.forEach(element => {
-        console.log('local-storage.service.ts => listarUsuarios() => ' + element.email + ' | ' + element.contrasena);
-      });
-    }
-  }
+  // listarUsuarios(): void {
+  //   const usuariosGuardados: UsuarioDto[] = JSON.parse(this.getItem('usuarios') || '[]');
+  //   if (!usuariosGuardados) {
+  //     this.crearUsuarioAdminPorDefecto();
+  //   } else {
+  //     usuariosGuardados.forEach(element => {
+  //       console.log('local-storage.service.ts => listarUsuarios() => ' + element.email + ' | ' + element.contrasena);
+  //     });
+  //   }
+  // }
   obtenerUsuarios(): UsuarioDto[] {
     const listaUsuarios = this.getItem('usuarios');
     if (listaUsuarios) {

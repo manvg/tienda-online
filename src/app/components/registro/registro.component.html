@@ -19,41 +19,24 @@
           </div>
         </div>
         <div class="col-md-4">
-          <label class="form-label">Apellidos <span class="text-danger">*</span></label>
-          <input type="text" class="form-control" id="apellidos" maxlength="30" formControlName="apellidos">
-          <div *ngIf="enviado && formRegistro.get('apellidos')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['required']">Este campo es obligatorio.</small>
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
-          </div>
-          <div *ngIf="formRegistro.get('apellidos')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidos')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
+          <label class="form-label">Apellido Paterno <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="apellidoPaterno" maxlength="30" formControlName="apellidoPaterno">
+          <div *ngIf="enviado && formRegistro.get('apellidoPaterno')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidoPaterno')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidoPaterno')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
           </div>
         </div>
       </div>
       <div class="row mt-3 justify-content-center">
         <div class="col-md-4">
-          <label class="form-label">Dirección de despacho</label>
-          <input type="text" class="form-control" id="direccion" maxlength="150" formControlName="direccion">
-          <div *ngIf="enviado && formRegistro.get('direccion')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
-          </div>
-          <div *ngIf="formRegistro.get('direccion')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
+          <label class="form-label">Apellido Materno <span class="text-danger">*</span></label>
+          <input type="text" class="form-control" id="apellidoMaterno" maxlength="30" formControlName="apellidoMaterno">
+          <div *ngIf="enviado && formRegistro.get('apellidoMaterno')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidoMaterno')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('apellidoMaterno')?.errors?.['soloLetras']">Sólo se permiten letras.</small>
           </div>
         </div>
-        <div class="col-md-4">
-          <label class="form-label">Teléfono</label>
-          <input type="text" class="form-control" id="telefono" maxlength="9" formControlName="telefono" autocomplete="off">
-          <div *ngIf="enviado && formRegistro.get('telefono')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['required']">Este campo es obligatorio.</small>
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
-          </div>
-          <div *ngIf="formRegistro.get('telefono')?.invalid">
-            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-3 justify-content-center">
+
         <div class="col-md-4">
           <label class="form-label">Fecha nacimiento <span class="text-danger">*</span></label>
           <input type="date" class="form-control" id="fechaNacimiento" formControlName="fechaNacimiento">
@@ -69,6 +52,8 @@
             </small>
           </div>
         </div>
+      </div>
+      <div class="row mt-3 justify-content-center">
         <div class="col-md-4">
           <label class="form-label">Correo electrónico <span class="text-danger">*</span></label>
           <input type="email" class="form-control" id="correo" formControlName="correo">
@@ -77,7 +62,32 @@
             <small class="mensaje-validacion" *ngIf="formRegistro.get('correo')?.errors?.['email']">Formato de correo no válido.</small>
           </div>
         </div>
+        <div class="col-md-4">
+          <label class="form-label">Teléfono</label>
+          <input type="text" class="form-control" id="telefono" maxlength="9" formControlName="telefono" autocomplete="off">
+          <div *ngIf="enviado && formRegistro.get('telefono')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['required']">Este campo es obligatorio.</small>
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
+          </div>
+          <div *ngIf="formRegistro.get('telefono')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('telefono')?.errors?.['soloNumeros']">Sólo se permiten caracteres numéricos.</small>
+          </div>
+        </div>
       </div>
+
+      <div class="row mt-3 justify-content-center">
+        <div class="col-md-8">
+          <label class="form-label">Dirección de despacho</label>
+          <input type="text" class="form-control" id="direccion" maxlength="150" formControlName="direccion">
+          <div *ngIf="enviado && formRegistro.get('direccion')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
+          </div>
+          <div *ngIf="formRegistro.get('direccion')?.invalid">
+            <small class="mensaje-validacion" *ngIf="formRegistro.get('direccion')?.errors?.['alphanumerico']">Sólo se permiten caracteres alfanuméricos.</small>
+          </div>
+        </div>
+    </div>
+
       <div class="row mt-3 justify-content-center">
         <div class="col-md-4">
           <label class="form-label">Contraseña <span class="text-danger">*</span></label>
