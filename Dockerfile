@@ -12,7 +12,7 @@ RUN npm run build --prod
 
 FROM nginx:alpine
 
-COPY --from=build /app/dist/app-reposteria/browser/ /usr/share/nginx/html
+COPY --from=build /app/dist/tienda-online/browser/ /usr/share/nginx/html
 
 EXPOSE 80
 
