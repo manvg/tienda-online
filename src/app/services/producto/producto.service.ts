@@ -8,7 +8,7 @@ import { ProductoDto } from '../../models/dto/productoDto.model';
   providedIn: 'root'
 })
 export class ProductoService {
-  private apiUrl = 'http://54.236.97.158:8086/api/productos'; // URL del endpoint del backend
+  private apiUrl = 'http://localhost:8086/api/productos';//'http://54.236.97.158:8086/api/productos'; // URL del endpoint del backend
 
   constructor(private http: HttpClient) {}
 
